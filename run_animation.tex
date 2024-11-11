@@ -1,0 +1,165 @@
+\pause
+\begin{figure}[b]
+\scalebox{.7}{
+\begin{tikzpicture}[->,thick]
+\tikzset
+  {dest/.style={circle,draw,minimum width=0.005mm,inner sep=0mm}}
+ \node[state, draw=white,initial,initial text={}] (s) at (-1.8,0) {$s_0$};
+ \only<2-7> {
+ \draw (-1,-0.3) rectangle (1,0.5);
+ \draw[->] (-1.3,0) -- (-1.05,0);
+ \node[dest] (s0) at (-.9,0) {};
+  \node[dest] (s1) at (-.7,0) {};
+ \node[dest] (s2) at (-0.5,0) {};
+  \node[dest] (s3) at (-0.1,0) {};
+ \node[dest] (s6) at (0.5,0) {};
+ \node[dest] (s7) at (.1,0) {};
+  \node[dest] (s4) at (0.7,0) {};
+ \node[dest] (s5) at (0.9,0) {};
+ \node[dest] (s5) at (0.9,0) {};
+ % \node[dest,draw=white] (l1) at (0.1,-0.6) {$ws_1$};
+\put(0.1,-16.9){$ws_1$};
+
+ \path(s1) edge[draw=red,bend left=50] node[above] {} node{}(s4);
+\path(s2) edge[draw=blue,bend left=60] node[above] {} node{}(s3);
+\path(s0) edge[draw=blue,bend left=50] node[above] {} node{}(s5);
+ \path(s7) edge[draw=red,bend left=90] node[above] {} node{}(s6);
+}
+ %% first hole
+\only<3-7>{
+\draw[->] (1,0) -- (1.2,0);
+\node[circle,dashed,minimum width=0.05mm,inner sep=0.5mm] (p1) at (1.35,0) {$\textcolor{red}{\downarrow_1}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p2) at (1.8,0) {$\textcolor{red}{\downarrow_1}$};
+\draw[->] (1.45,0) -- (1.65,0);
+
+ \draw (2.15,-0.2) rectangle (2.95,0.3);
+ \draw[->] (1.95,0) -- (2.15,0);
+ \node[dest] (t0) at (2.21,0) {};
+  \node[dest] (t1) at (2.5,0) {};
+ \node[dest] (t2) at (2.65,0) {};
+  \node[dest] (t3) at (2.85,0) {};
+  \put(66,-16.9){$ws_2$};
+\put(110,-16.9){$ws_3$};
+
+  \path(t0) edge[draw=red,bend left=50] node[above] {} node{}(t1);
+\path(t2) edge[draw=blue,bend left=60] node[above] {} node{}(t3);
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p3) at (3.35,0) {$\textcolor{red}{\downarrow_1}$};
+ \node[dest,draw=white] (dum2) at (4.5,0) {};
+
+
+
+\draw[->] (2.95,0) -- (3.2,0);
+\draw (3.7,-0.2) rectangle (4.5,0.3);
+
+
+ \draw[->] (3.49,0) -- (3.7,0);
+ \node[dest] (r0) at (3.8,0) {};
+  \node[dest] (r1) at (4,0) {};
+ \node[dest] (r2) at (4.2,0) {};
+  \node[dest] (r3) at (4.4,0) {};
+  \path(r0) edge[draw=red,bend left=50] node[above] {} node{}(r3);
+\path(r1) edge[draw=blue,bend left=60] node[above] {} node{}(r2);
+\node[fill=red!50, rectangle, inner sep=0.5, fill opacity=0.2,fit= (p1)(dum2)](H1){};
+}
+% second hole
+\only<4-7> {
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p4) at (4.85,0) {$\textcolor{blue}{\downarrow_2}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p5) at (5.35,0) {$\textcolor{blue}{\downarrow_2}$};
+\draw[->] (4.5,0) -- (4.7,0);
+ \draw[->] (4.95,0) -- (5.2,0);
+ 
+ 
+\draw (5.65,-0.2) rectangle (6.8,0.3);
+ \draw[->] (5.45,0) -- (5.65,0);
+ \node[dest] (q0) at (5.75,0) {};
+  \node[dest] (q1) at (5.95,0) {};
+ \node[dest] (q2) at (6.15,0) {};
+ \node[dest] (q3) at (6.35,0) {};
+   \node[dest] (q4) at (6.5,0) {};
+ \node[dest] (q5) at (6.7,0) {};
+   \path(q0) edge[draw=red,bend left=50] node[above] {} node{}(q1);
+\path(q2) edge[draw=blue,bend left=60] node[above] {} node{}(q5);
+\path(q3) edge[draw=blue,bend left=60] node[above] {} node{}(q4);
+\put(170,-16.9){$ws_4$};
+\node[fill=blue!50, rectangle, inner sep=0.5, fill opacity=0.2,fit= (p4)(dum3)](H1){};
+
+}
+%%%
+%adding pops
+\only<5-7> {
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p9) at (7.15,0) {$\textcolor{red}{\uparrow_1}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p9) at (7.65,0) {$\textcolor{red}{\uparrow_1}$};
+
+
+\node[dest,draw=white] (dum5) at (6.95,0) {};
+\node[dest,draw=white] (dum6) at (9.1,0) {};
+%\node[fill=green!70, rectangle, inner sep=0.5, fill opacity=0.2,fit=(dum5)(p9)(dum6)](H){};
+
+
+ \draw[->] (6.8,0) -- (7,0);
+\draw[->] (7.3,0) -- (7.5,0);
+}
+% hole 3
+\only<6-7> {
+\draw (8,-0.2) rectangle (9.2,0.3);
+ \draw[->] (7.75,0) -- (8,0);
+ \node[dest] (d0) at (8.1,0) {};
+  \node[dest] (d1) at (8.3,0) {};
+ \node[dest] (d2) at (8.5,0) {};
+ \node[dest] (d3) at (8.7,0) {};
+   \node[dest] (d4) at (8.9,0) {};
+ \node[dest] (d5) at (9.1,0) {};
+   \path(d0) edge[draw=blue,bend left=50] node[above] {} node{}(d1);
+\path(d2) edge[draw=red,bend left=60] node[above] {} node{}(d5);
+\path(d3) edge[draw=red,bend left=60] node[above] {} node{}(d4);
+\put(240,-16.9){$ws_5$};
+
+\node[fill=red!50, rectangle, inner sep=0.5, fill opacity=0.2,fit=
+(p6)(p7)](H1){};
+
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p6) at (9.5,0) {$\textcolor{red}{\downarrow_1}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p7) at (9.95,0) {$\textcolor{red}{\downarrow_1}$};
+\draw[->] (9.2,0)--(9.38,0);
+\draw[->] (9.6,0)--(9.78,0);
+\draw[->] (10.05,0)--(10.28,0);
+}
+\only<7> {
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p8) at (10.5,0) {$\textcolor{blue}{\uparrow_2}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p9) at (10.9,0) {$\textcolor{red}{\uparrow_1}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p10) at (11.3,0) {$\textcolor{blue}{\uparrow_2}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p9) at (11.7,0) {$\textcolor{red}{\uparrow_1}$};
+\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p9) at (12.1,0) {$\textcolor{red}{\uparrow_1}$};
+%\node[circle,dashed,minimum width=0.05mm, inner sep=0.5mm] (p10) at (12.6,0) {$s_f$};
+\node[dest,draw=white] (dum7) at (11.6,-.2) {};
+\node[dest,draw=white] (dum8) at (12.21,0.2) {};
+
+%\node[fill=green!70, rectangle, inner sep=0.5, fill opacity=0.2,fit=(dum7)(dum8)](H11){};
+
+
+
+ \draw[->] (10.55,0)--(10.73,0);
+ \draw[->] (10.95,0)--(11.15,0);
+\draw[->] (11.38,0)--(11.55,0);
+\draw[->] (11.77,0)--(11.95,0);
+\draw[->] (12.15,0)--(12.35,0);
+
+
+\node[dest,draw=white] (dum3) at (6.76,0) {};
+
+
+\node[dest,draw=white] (dum4) at (9.8,0) {};
+}
+
+\end{tikzpicture}
+}
+ % \caption{A run $\sigma$ of MPDA, $\downarrow^{i}$ and $\uparrow^{i}$ represents push at stack
+%    $i$ and   pop at stack $i$ respectively
+% % The green  patches are pop-holes of the red stack.
+% }
+\label{run:holes1}
+\end{figure}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

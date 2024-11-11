@@ -1,0 +1,204 @@
+\newcommand{\zero}{{\mathbf{0}}}
+\usepackage{tikz}
+\usepackage{todo}
+\usepackage{amsmath} \usepackage{amssymb} \usepackage{amsfonts}
+\usepackage{mathtools} \usepackage{commath} \usepackage{amssymb}
+\usepackage{ulem}
+\usepackage{wasysym}
+\usepackage{color,colortbl}
+\usepackage{wrapfig}
+% \setlength{\wrapoverhang}{\marginparwidth}
+%     \addtolength{\wrapoverhang}{\marginparsep}
+\usetikzlibrary{automata,positioning}
+\usetikzlibrary{fit} % fitting shapes to coordinates
+\usetikzlibrary{backgrounds} % drawing the background after the foreground
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
+\usepgflibrary{shapes}
+\usetikzlibrary{snakes,automata}
+\usetikzlibrary{shadows}
+\tikzstyle{cir}=[draw=violet, fill=red!20!white,circle,minimum size=1.4em,inner sep=0em]                                                                                                      
+     \tikzstyle{dia}=[draw=green!80!red, fill=green!20!white, diamond,minimum size=1.4em,inner sep=0.1em]                                                                                                      
+\tikzstyle{cir1}=[draw=violet, fill=violet!20!white,circle,minimum size=1.4em,inner sep=0em]                                                                                                      
+          
+
+%\tikzstyle{nloc}=[draw, text badly centered, rectangle, rounded corners, minimum size=2em,inner sep=0.5em]
+\tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
+\tikzstyle{loc}=[draw,rectangle,minimum size=1.4em,inner sep=0em]
+\tikzstyle{trans}=[-latex, rounded corners]
+\tikzstyle{trans2}=[-latex, dashed, rounded corners]
+
+\tikzstyle{inv}=[]
+\tikzstyle{varpass}=[]
+\usepackage{lineno }
+%\usepackage{enumitem}
+\usetikzlibrary{automata,shapes}
+\newcommand{\inv}{\mathit{Inv}}
+\newcommand{\dia}{\mathit{dia}}
+\newcommand{\act}{\mathit{Act}}
+\newcommand{\fin}{\mathit{L_F}}
+\newcommand{\variables}{\mathcal{X}}
+
+\newcommand{\zones}{\mathcal{Z}}
+\newcommand{\sem}[1]{ [ \! [ {#1}  ]  \! ]} % semantic brackets
+\newcommand{\sat}{\in}
+\newcommand{\region}{\zeta}
+\def\rmdef{\stackrel{\mbox{\rm {\tiny def}}}{=}} % equals definition
+\newcommand{\powC}{2^\clocks}
+
+% region graph and boundary region graph image makeover.
+%\newcommand{\RegA}[1]{\widetilde{#1}}
+%\newcommand{\RegB}[1]{\widehat{#1}}
+\newcommand{\RegA}[1]{{#1}^{\mbox{\tiny {\rm RG}}}}
+\newcommand{\RegB}[1]{{#1}^{\mbox{\tiny {\rm BRG}}}}
+\newcommand{\R}{\ensuremath{\mathsf{Reg}(V)}\xspace}
+\newcommand{\ssum}{\textstyle\sum}
+% \usepackage[colorlinks]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+%\usepackage{times}
+% \usepackage{stmaryrd}
+%\usepackage{amssymb}
+% \usepackage{empheq}
+%\usepackage{verbatim}
+%\usepackage{amsmath}%,amsfonts}
+%\usepackage{graphicx}
+%\usepackage{color}
+
+\newcommand{\QED}{\hfill$\square$}
+
+%\spn@wtheorem{algorithm}{Algorithm}{\bfseries}{\rmfamily}
+%\spnewtheorem{assum}{Assumption}{\bfseries}{\rmfamily}
+
+%\newcommand{\Paragraph}[1]{\vspace{.5ex} \noindent {\bf #1}}
+\newcommand{\ParagraphUp}[1]{\noindent {\bf #1}}
+
+\newcommand{\prefix}{\mathop{\text{\rm Prefix}}}
+
+\newcommand{\ImproveA}{\mathbf{\Phi}}
+\newcommand{\ImproveB}{\mathbf{\Psi}}
+\newcommand{\Bias}{\text{Bias}}
+
+\newcommand{\Edist}[1]{\| #1 \|}
+\newcommand{\Norm}[1]{\| #1 \|}
+%\newcommand{\norm}[1]{| #1 |}
+
+%\newcommand{\sseq}[1]{{\color{blue}\seq{#1}}}
+\newcommand{\sseq}[1]{{\seq{#1}}}
+\newcommand{\InfNorm}[1]{\| #1 \|{}_\infty}
+%\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\Set}[1]{\big\{ #1 \big\}}
+\newcommand{\eset}[1]{\{ \: #1 \: \}}
+\newcommand{\Eset}[1]{\big{ \: #1 \: \big}}
+\newcommand{\seq}[1]{\langle #1 \rangle}
+%\newcommand{\Rplus}{{\mathbb R}_{\oplus}}
+\newcommand{\Rplus}{\ensuremath{\mathbb{R}_{\geq 0}}}
+\newcommand{\Npos}{\mathbb N_{+}}
+\newcommand{\Nat}{\mathbb N}
+\newcommand{\Real}{\mathbb R}
+\newcommand{\Rat}{\mathbb Q}
+\newcommand{\Int}{\mathbb{Z}}
+\newcommand{\val}{\nu}
+\newcommand\V{\Real^{|\variables|}}
+\newcommand\Vh{\Real^{\abs{V}}}
+\newcommand{\PRERUNS}{\textsf{PreRuns}}
+
+\newcommand{\obciach}{{\upharpoonright}}
+\newcommand{\CELL}{\text{\rm Cell}}
+\newcommand{\Aa}{{\cal A}}
+\newcommand{\Bb}{{\cal B}}
+\newcommand{\Dd}{{\cal D}}
+\newcommand{\Ee}{{\cal E}}
+\newcommand{\Ff}{{\cal F}}
+\newcommand{\Cc}{\mathcal C}
+\newcommand{\Oo}{{\cal O}}
+\newcommand{\Rr}{{\cal R}}
+
+\newcommand{\Mm}{{\cal M}}
+\newcommand{\Tt}{{\cal T}}
+\newcommand{\Hh}{{\cal H}}
+\newcommand{\mdp}{{\mathsf{M}}}
+\newcommand{\pta}{{\mathsf{T}}}
+\newcommand{\term}{\textit{Term}}
+\newcommand{\rate}{\mathfrak{ R}\xspace}
+\newcommand{\hy}{\mathcal{H}}
+\newcommand{\rect}{\textrm{\textsf{rect}}}
+
+\newcommand{\PV}{\mathsf{PV}}
+\newcommand{\PR}{\mathsf{PR}}
+\newcommand{\PN}{\mathsf{PN}}
+
+% \newcommand{\RHA}{RHA}
+% \newcommand{\RTA}{RTA}
+%  \DeclareMathOperator{\rhar}{\RHA_R}
+
+\newcommand{\bc}[1]{\widetilde{#1}}
+\newcommand{\actvar}{\ensuremath{ACT}}
+\newcommand{\actcopy}{\ensuremath{ACT\_COPY}}
+\newcommand{\inactFlow}{\ensuremath{IF}}
+\newcommand{\boxcontain}{\ensuremath{BC}}
+\newcommand{\compmap}{\ensuremath{CP}}
+\newcommand{\locmap}{\ensuremath{LP}}
+\newcommand{\boxmap}{\ensuremath{BP}}
+\newcommand{\statemap}{\ensuremath{SP}}
+
+\newcommand{\comps}{\ensuremath{COMPS}}
+\newcommand{\caller}{\ensuremath{CALLER}}
+\newcommand{\nil}{\ensuremath{-}}
+\newcommand{\Lbl}[3]{{(#1)}^{\mathbf{#2}}_{\mathbf{#3}}} % new RHA removing N label : 1 : old component, 2 : box calling it, 3: depth 
+\newcommand{\untime}[1]{Unt(#1)}
+\newcommand{\lang}[1]{\mathcal L(#1)}
+\newcommand{\rates}{Rates}
+%\newcommand{\rate}{Rate}
+\newcommand{\RHh}{{\cal R}_{\cal H}}
+\newcommand{\Reg}{Reg(cmax)}
+\newcommand{\cmax}{\ensuremath{c_{\max}}\xspace}
+\newcommand{\reg}{r}
+\newcommand{\guard}{g}
+\newcommand{\reset}{r}
+\newcommand{\timeSucc}[1]{\leq_{ts}^{#1}}
+\newcommand{\semiConfEq}[2]{{#1} \approx {#2}}
+\newcommand{\HA}{H}
+\newcommand{\twoha}{\ensuremath{2\mbox{-}\mathcal{H}}}
+\newcommand{\RegHA}{\textsf{Reg}(\twoha)}
+
+\newcommand{\pda}{{\cal P}}
+\newcommand{\shadow}[1]{#1^\bullet}
+\newcommand{\poppedCxt}[1]{\color{red}{#1}}
+\usepackage{xspace}
+\newcommand{\twohalf}{\ensuremath{2\frac{1}{2}}}
+\newcommand{\onehalf}{\ensuremath{1\frac{1}{2}}}
+\newcommand{\half}{\ensuremath{\frac{1}{2}}}
+\newcommand{\src}[1]{\textcolor{blue}{#1}}
+\newcommand{\loc}{\ensuremath{\mathcal{Q}}}
+\newcommand{\clocks}{\ensuremath{\mathcal{X}}}
+\newcommand{\intr}{\ensuremath{\mathcal{I}}}
+\newcommand{\nop}{\ensuremath{\mathsf{nop}}\xspace}
+\newcommand{\push}{\ensuremath{\mathsf{push}}\xspace}
+\newcommand{\pop}{\ensuremath{\mathsf{pop}}\xspace}
+\newcommand{\op}{\ensuremath{\mathsf{op}}\xspace}
+\newcommand{\realpos}{\ensuremath{\mathbb{R}_{\geq 0}}}
+\newcommand{\Iff}{if and only if\xspace}
+\newcommand{\ta}{\ensuremath{\mathcal{A}}}
+\newcommand{\stg}{\ensuremath{\mathcal{G}}}
+\newcommand{\shg}{\ensuremath{\mathcal{SG}}}
+\newcommand{\locs}{\ensuremath{\mathcal{Q}_{\bigcirc}}}
+\newcommand{\locd}{\ensuremath{\mathcal{Q}_{\Diamond}}}
+\newcommand{\locb}{\ensuremath{\mathcal{Q}_{\square}}}
+\newcommand{\succr}{\ensuremath{\textsf{Succ}_{(r_{x},r_{y})}}}
+\newcommand{\res}{\textsf{Res}\xspace}
+\newcommand{\fract}[1]{\ensuremath{\textsf{fract}(#1)}}
+\newcommand{\pspace}{\textsf{PSPACE}\xspace}
+\newcommand{\probreachz}{\ensuremath{\textsf{Prob}\_\textsf{Reach}_{>0}}}
+\newcommand{\probreachze}{\ensuremath{\textsf{Prob}\_\textsf{Reach}_{=0}}}
+\newcommand{\probreacho}{\ensuremath{\textsf{Prob}\_\textsf{Reach}_{=1}}}
+\newcommand{\halt}{\ensuremath{\textsf{HALT}\xspace}}
+\newcommand{\fracrel}{\ensuremath{\textsf{Rel}\xspace}}
+\newcommand{\exptime}{\textsf{EXPTIME}\xspace}
+\newcommand{\dist}{\ensuremath{\textsf{Dist}\xspace}}

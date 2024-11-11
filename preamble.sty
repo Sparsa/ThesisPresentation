@@ -1,0 +1,392 @@
+%\usepackage[utf8]{inputenc}
+%\usepackage{todonotes}
+%\usepackage[american]{babel}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{commath}
+\usepackage{upgreek}
+\usepackage{wrapfig}
+\usepackage{listings}
+\usepackage[section]{placeins}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{upgreek}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage{todonotes}
+%\usepackage{hyperref}
+\usepackage{mathtools}
+%\usepackage{mathrsfs}
+\usepackage[noend,noline,ruled,linesnumbered]{algorithm2e}
+\usepackage{dsfont}
+\usepackage{xcolor}
+\usepackage{skull}
+\usepackage{tikz}
+\usepackage{pgfplots}
+%\usepackage{minted}
+%\newtheorem{prop}{Proposition}
+\usetikzlibrary{fit} % fitting shapes to coordinates
+\usetikzlibrary{backgrounds} % drawing the background after the foreground
+\usetikzlibrary{patterns,calc}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{positioning,fit, backgrounds, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.markings}
+\tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
+\usepgflibrary{shapes}
+\usetikzlibrary{automata,arrows}
+\usetikzlibrary{shadows}
+\tikzstyle{nloc}=[draw, text badly centered, rectangle, rounded corners, minimum size=2em,inner sep=0.5em]
+\tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
+\tikzstyle{loc}=[draw,rectangle,minimum size=1.4em,inner sep=0em]
+\tikzset{
+    gluon/.style={decorate,draw=black,
+        decoration={coil,amplitude=1pt, segment length=5pt}} 
+}
+\tikzset{
+    gluonew/.style={decorate,draw=black,
+        decoration={coil,amplitude=1pt, segment length=2pt}} 
+}
+
+\tikzset{
+    gluon1/.style={decorate,draw=black,
+        decoration={coil,amplitude=3pt, segment length=3pt}} 
+}
+
+
+\newcommand{\mtpda}[1]{MTPDA}
+\newcommand{\mpda}{\ensuremath{\mathsf{MPDA}}\xspace}
+\newcommand{\tmpda}{\ensuremath{\mathsf{TMPDA}}\xspace}
+\newcommand{\tpda}{\ensuremath{\mathsf{TPDA}}\xspace}
+\newcommand{\hs}[1]{\texttt{HS\textsubscript{#1}}\xspace}
+\newcommand{\ahs}[1]{\texttt{AHS\textsubscript{#1}}\xspace}
+\newcommand{\hst}[1]{\texttt{HST\textsubscript{#1}}\xspace}
+\newcommand{\ahst}[1]{\texttt{AHST\textsubscript{#1}}\xspace}
+\newcommand{\bh}{\ensuremath{\mathsf{hole bounded TMPDA}}\xspace}
+\newcommand{\Ll}{\mathcal{L}}
+\newcommand{\ws}{\mathsf{WS}}
+\newcommand{\remove}{\mathsf{remove}}
+\newcommand{\append}{\mathsf{append}}
+\newcommand{\trunc}{\mathsf{trunc}}
+\newcommand{\last}{\mathsf{last}}
+\newcommand{\lastd}{\mathsf{lastdur}}
+\newcommand{\timetillh}{\mathsf{time}}
+\newcommand{\maxi}{\mathsf{max}}
+\newcommand{\hole}{\mathsf{hole}}
+\newcommand{\pushhole}{\texttt{hole}}
+\newcommand{\mini}{\mathsf{min}}
+\newcommand{\textsub}{\textsubscript}
+\newcommand{\textsup}{\textsuperscript}
+%\newcommand{\nop}{\ensuremath{\mathsf{nop}}\xspace}
+%\newcommand{\push}{}%{\ensuremath{\mathsf{push}}\xspace}
+%\newcommand{\push
+%\newcommand{\pop}{}%{\ensuremath{\mathsf{pop}}\xspace}
+%\newcommand{\op}{\ensuremath{\mathsf{op}}\xspace}
+%\newcommand{\src}{\ensuremath{\mathsf{src}}\xspace}
+\newcommand{\tgt}{\ensuremath{\mathsf{tgt}}\xspace}
+\newcommand{\trim}{\ensuremath{\mathsf{BHIM}}}
+%\newcommand{\cmax}{c\textsubscript{max}}
+\newcommand{\sol}{\texttt{SetOfLists}}
+\newcommand{\wsr}{\texttt{WR}}
+\newcommand{\wnr}{\texttt{WR}}%%\mathsf{WR}}
+%\newcommand{\Iff}{if and only if\xspace}
+\newcommand{\wsrt}{\texttt{WRT}}
+\newcommand{\atcrit}{\ensuremath{\mathcal{A}_{Tcrit}^{\emptyset}}}
+\newcommand{\acrit}{\ensuremath{\mathcal{A}_{crit}^{\emptyset}}}
+\newcommand{\acritn}{\ensuremath{\mathcal{A}_{crit}}}
+\newcommand{\aprod}{\ensuremath{\mathcal{A}_{prodcon}}}
+\newcommand{\aprode}{\ensuremath{\mathcal{A}_{prodcon}^{\emptyset}}}
+\newcommand{\aprodp}{\ensuremath{\mathcal{A}_{prodcon}^{(M,N)}}}
+\newcommand{\Blue}[1]{{\color{blue} #1}}
+\newcommand{\mypara}[1]{\smallskip\noindent{\textup{\textbf{#1.}}}}
+\newcommand{\stackalphabet}{\Lambda}
+
+% --------------- 
+\newcommand{\Redc}[1]{{\textcolor{red}{#1}}}
+%\newcommand{\Blue}[1]{{\textcolor{blue}{#1}}}
+
+\newcommand{\AKMV}{\ensuremath{\mathcal{A}^{K,M}_{\textsf{valid}}}\xspace}
+\newcommand{\BKMV}{\ensuremath{\mathcal{B}^{K,M}_{\textsf{valid}}}\xspace}
+% \newcommand{\AKMR}{\ensuremath{\mathcal{A}^{K,M}_{\textsf{real}}}\xspace}
+% \newcommand{\AKMRi}{\ensuremath{\mathcal{A}^{K,M}_{\textsf{inf}}}\xspace}
+\newcommand{\AKMS}{\ensuremath{\mathcal{A}^{K,M}_{\Sys}}\xspace}
+\newcommand{\TCW}{\ensuremath{\mathsf{TCW}}\xspace}
+\newcommand{\TCWs}{\ensuremath{\mathsf{TCWs}}\xspace}
+\newcommand{\STCW}{\ensuremath{\mathsf{STCW}}\xspace}
+\newcommand{\STCWs}{\ensuremath{\mathsf{STCWs}}\xspace}
+% \newcommand{\STCW}{split-\textsf{TC}-word\xspace}
+% \newcommand{\STCWs}{split-\textsf{TC}-words\xspace}
+\newcommand{\KTCW}{\STCW^{K}\xspace}%{\TCW^{K\textup{-}\mathsf{sw}}\xspace}
+\newcommand{\KMTCW}{\STCW^{K,M}\xspace}%{\TCW^{K\textup{-}\mathsf{sw}}\xspace}
+\newcommand{\Suggestion}[1]{#1}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\Sys}{\ensuremath{\mathcal{S}}\xspace}
+\newcommand{\Lang}{\ensuremath{\mathcal{L}}\xspace}
+% \newcommand{\op}{\ensuremath{\mathsf{op}}\xspace}
+% \newcommand{\nop}{\ensuremath{\mathsf{nop}}\xspace}
+% \newcommand{\push}{\ensuremath{\downarrow}\xspace}
+% \newcommand{\pop}{\ensuremath{\uparrow}\xspace}
+% \newcommand{\push}{\ensuremath{\mathsf{push}}\xspace}
+% \newcommand{\pop}{\ensuremath{\mathsf{pop}}\xspace}
+\newcommand{\ph}{\ensuremath{\mathsf{push}}}
+%\newcommand{\pd}{\ensuremath{\mathsf{pd}}}
+\newcommand{\sw}{\ensuremath{\mathsf{switch}}}
+\newcommand{\ff}{\ensuremath{\mathsf{ff}}}
+\newcommand{\ttt}{\ensuremath{\mathsf{tt}}}
+
+
+\newcommand{\EP}{\ensuremath{\mathsf{EP}}\xspace}
+\newcommand{\LEP}{\ensuremath{\mathsf{LEP}}\xspace}
+\newcommand{\REP}{\ensuremath{\mathsf{REP}}\xspace}
+
+\newcommand{\shuffle}{\mathbin{{\sqcup}\!{\sqcup}}}
+%\newcommand{\Oo}{\ensuremath{\mathcal{O}}}
+%\newcommand{\Mm}{\ensuremath{\mathcal{M}}}
+\newcommand{\atomicSTT}{\ensuremath{\mathsf{atomicSTT}}\xspace}
+% \newcommand{\STT}{\ensuremath{\mathsf{STT}}\xspace}
+% \newcommand{\STTs}{\ensuremath{\mathsf{STTs}}\xspace}
+% \newcommand{\kSTT}{$K$-\STT\xspace}
+% \newcommand{\kSTTs}{$K$-\STTs\xspace}
+% \newcommand{\STW}{\ensuremath{\mathsf{STW}}\xspace}
+% \newcommand{\STWs}{\ensuremath{\mathsf{STWs}}\xspace}
+\newcommand{\stt}{\tau}
+
+
+\newcommand{\atomicTT}{\ensuremath{\mathsf{atomicTT}}\xspace}
+\newcommand{\TT}{\ensuremath{\mathsf{TT}}\xspace}
+\newcommand{\TTs}{\ensuremath{\mathsf{TTs}}\xspace}
+\newcommand{\kTT}{$K$-\TT}
+\newcommand{\kTTs}{$K$-\TTs}
+\newcommand{\TW}{\ensuremath{\mathsf{TW}}\xspace}
+\newcommand{\TWs}{\ensuremath{\mathsf{TWs}}\xspace}
+% \newcommand{\tt}{\tau}
+
+
+  \SetKwFunction{NumberOfHoles}{NumberOfOpenHoles}
+\newcommand{\tcw}{\ensuremath{\mathcal{V}}\xspace}
+\newcommand{\tft}{\ensuremath{\mathsf{T4T}}\xspace}
+
+\newcommand{\Events}{V}
+\newcommand{\labST}{\mathsf{stcw}}
+\newcommand{\labelroot}{\mathsf{labroot}}
+\newcommand{\image}{\mathsf{Im}}
+
+\newcommand{\addone}[2]{\mathop{\mathsf{Add}_{#1}^{#2}}}
+\newcommand{\add}[3]{\mathop{\mathsf{Add}_{#1,#2}^{#3}}}
+\newcommand{\forget}[1]{\mathop{\mathsf{Forget}_#1}}
+\newcommand{\rename}[2]{\mathop{\mathsf{Rename}_{#1,#2}}}
+\newcommand{\sttunion}{\oplus}
+%\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+%\newcommand{\sem}[1]{\llbracket #1 \rrbracket}
+% --------------- 
+
+\newcommand{\matchrel}{\mathbin{\vartriangleright}}
+\newcommand{\procrel}{\rightarrow}
+%\newcommand{\hole}{\dashrightarrow}
+\newcommand{\tran}[3]{#1 \xrightarrow{#2} #3}
+\newcommand{\width}{\ensuremath{\mathsf{width}}\xspace}
+
+% quelques macros
+
+\newcommand{\uppaal}{\textsf{{U}ppaal}\xspace}
+\newcommand{\tina}{\textsf{{T}ina}\xspace}
+\newcommand{\romeo}{\textsf{{R}omeo}\xspace}
+\newcommand{\kronos}{\textsf{{K}ronos}\xspace}
+\newcommand{\calM}{{\cal M}}
+%\newcommand{\calA}{{\cal A}} \newcommand{\calB}{{\cal B}}
+%\newcommand{\calN}{{\cal N}} \newcommand{\calT}{{\cal T}}
+%\newcommand{\calL}{{\cal L}} \newcommand{\calG}{{\cal G}}
+\newcommand{\cA}{{\cal A}} \newcommand{\cB}{{\cal B}}
+\newcommand{\cD}{{\cal D}} \newcommand{\cC}{{\cal C}}
+\newcommand{\cM}{{\cal M}} \newcommand{\cL}{{\cal L}}
+\newcommand{\cG}{{\cal G}} \newcommand{\cF}{{\cal F}}
+\newcommand{\cI}{{\cal I}} \newcommand{\cP}{{\cal P}}
+\newcommand{\cT}{{\cal T}} 
+%\newcommand{\Tt}{{\cal T}} 
+\newcommand{\cX}{{\cal X}}
+\newcommand{\cO}{{\cal O}}
+\newcommand{\rela}{{\cal R}}
+
+\newcommand{\setN}{\mathbb N} % à utiliser en mode mathématique
+\newcommand{\setR}{\mathbb R} % à utiliser en mode mathématique
+\newcommand{\setB}{\mathbb B} % à utiliser en mode mathématique
+\newcommand{\setZ}{\mathbb Z} % à utiliser en mode mathématique
+\newcommand{\setQ}{\mathbb Q} % à utiliser en mode mathématique
+\newcommand{\true}{\textsf{tt}} % à utiliser en mode mathématique
+\newcommand{\false}{\textsf{ff}} % à utiliser en mode mathématique
+
+\newcommand{\enabled}[1]{\textit{En}(#1)} %
+\newcommand{\tts}[1]{\llbracket {#1} \rrbracket} %
+\newcommand{\vect}[1]{\mathbf{#1}} % à utiliser en mode mathématique
+
+\newcommand{\conf}[1]{( #1 )} % à utiliser en mode mathématique
+\newcommand{\tuple}[1]{\langle #1 \rangle} % à utiliser en mode mathématique
+\newcommand{\dur}[1]{#1} % à utiliser en mode mathématique
+
+\newcommand{\vphi}{\varphi} \newcommand{\impl}{\Rightarrow}
+%\newcommand{\ou}{\vee} \newcommand{\sat}{\models}
+\newcommand{\step}[1]{\stackrel{#1}{\rightarrow}}
+
+\newcommand{\past}[1]{#1^{\downarrow}}
+\newcommand{\fut}[1]{#1^{\uparrow}}
+
+\newcommand{\pre}[1]{\mbox{$^\bullet #1$}} % à utiliser en mode mathématique
+\newcommand{\Pre}{\ensuremath{\textsf{{\sffamily\small Pre}}}}
+\newcommand{\post}[1]{\mbox{${#1}^\bullet$}} % à utiliser en mode mathématique
+\newcommand{\Post}{\ensuremath{\textsf{{\sffamily\small Post}}}}
+\newcommand{\Read}{\ensuremath{\textsf{{\sffamily\small Read}}}}
+\newcommand{\Reach}{\ensuremath{\textsf{{\sffamily\small Reach}}}}
+\newcommand{\Untime}{\ensuremath{\textsf{{\sffamily\small Untime}}}}
+\newcommand{\pp}[1]{\mbox{$^\circ #1$}} % à utiliser en mode mathématique
+\newcommand{\Bag}{\ensuremath{\textsf{{\sffamily Bag}}}}
+\newcommand{\dom}{\ensuremath{\textsf{{\sffamily dom}}}}
+\newcommand{\size}{\ensuremath{\textsf{{\sffamily size}}}}
+\newcommand{\Acc}{\ensuremath{\textsf{{\sffamily Acc}}}}
+
+\newcommand{\interQ}{{\cal I}(\setQ_{\geq 0})} % à utiliser en mode mathématique
+\newcommand{\interN}{{\cal I}(\setN)} % à utiliser en mode mathématique
+\newcommand{\untimed}{{\textit{Untimed}}} % à utiliser en mode mathématique
+\newcommand{\timed}{{\textit{Timed}}} % à utiliser en mode mathématique
+\newcommand{\word}{{\textit{Word}}} % à utiliser en mode mathématique
+\newcommand{\dura}{{\textit{Duration}}} % à utiliser en mode mathématique
+\newcommand{\Inv}{\textup{\textsf{Inv}}}%{{\textit{Inv}}} % à utiliser en mode mathématique
+
+\newcommand{\Clocks}{\ensuremath{\textit{Clocks}}}
+\newcommand{\Lab}{\ensuremath{\textit{Lab}}}
+\newcommand{\Sync}{\ensuremath{\textit{Sync}}}
+\newcommand{\Redefined}{\ensuremath{\textit{Redefined}}}
+\newcommand{\Min}{\ensuremath{\textit{Min}}}
+\newcommand{\Cut}{\ensuremath{\textit{Cut}}}
+\newcommand{\Unf}{\ensuremath{\textit{Unf}}}
+\newcommand{\Eq}{\ensuremath{\textit{Eq}}}
+\newcommand{\fire}{\ensuremath{\textit{fire}}}
+\newcommand{\Test}{\ensuremath{\textit{Test}}}
+\newcommand{\Fin}{\ensuremath{\textit{Fin}}}
+\newcommand{\Extend}{\ensuremath{\textit{Extend}}}
+
+\newcommand{\NTA}{\textsf{NTA}\xspace}
+%\newcommand{\PN}{\textsf{PN}\xspace}
+\newcommand{\TPN}{\textsf{TPN}\xspace}
+\newcommand{\TdPN}{\textsf{TdPN}\xspace}
+\newcommand{\RATdPN}{\textsf{RA-TdPN}\xspace}
+\newcommand{\TA}{\textsf{TA}\xspace}
+\newcommand{\reach}{\ensuremath{\textsf{{\sffamily\small Reach}}}}
+
+\newcommand{\rdate}{{\textit{Rstamp}}} % à utiliser en mode mathématique 
+\newcommand{\tw}{{\cal TW}} % à utiliser en mode mathématique
+\newcommand{\tl}{{\cal L}} % à utiliser en mode mathématique
+\newcommand{\T}{\mathcal{T}}
+\def\first{{\it first}}
+
+
+\def\abc{\Sigma}
+\def\taminus{\mbox{${\cal TA}^{wtb}$}\xspace}
+
+\def\weaksim{\preceq_{\cal W}}
+\def\weakbisim{\approx_{\cal W}}
+
+\newcommand{\pasts}[1]{\llbracket #1 \rrbracket}
+\newcommand{\minpast}[1]{[#1]}
+
+%\newcommand{\TODO}[1]{\fbox{\textcolor{red}{TODO:#1}}}
+% 
+
+%\def\qed{$\square$}
+
+%\newcommand{\Real}{\mathsf{Real}}
+\newcommand{\Red}{\ensuremath{\mathrm{Red}}}
+\newcommand{\Sim}{\ensuremath{\mathrm{Sim}}}
+\newcommand{\inc}{\ensuremath{\mathrm{In}}}
+\newcommand{\out}{\ensuremath{\mathrm{Out}}}
+\newcommand{\wt}{\ensuremath{\mathsf{wt}}}
+\newcommand{\owt}{\ensuremath{\mathsf{owt}}}
+
+%\newcommand{\stc}{\stcw=(P, <, \lambda, \procrel, \matchrel, \theta)} 
+\newcommand{\stc}{\stcw=(P, \procrel,\hole, \lambda, \matchrel, \theta)} 
+%\newcommand{\stcone}{\stcw_1=(P_1, <_1, \lambda_1, \procrel_1, \matchrel_1, \theta_1)} 
+%\newcommand{\stctwo}{\stcw_2=(P_2, <_2, \lambda_2, \procrel_2, \matchrel_2, \theta_2)} 
+
+\newcommand{\stcone}{\stcw_1=(P_1, \procrel_1, \hole_1,\lambda_1,\matchrel_1, \theta_1)} 
+\newcommand{\stctwo}{\stcw_2=(P_2, \procrel_2, \hole_2,\lambda_2,\matchrel_2, \theta_2)} 
+\newcommand{\bbe}{\ensuremath{\mathsf{BBE}}\xspace}
+\newcommand{\bbbe}{\ensuremath{\mathsf{BBBE}}\xspace}
+\newcommand{\bep}{\ensuremath{\mathsf{BEP}}\xspace}
+
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\con}[2]{{#1}\circ{#2}}
+\newcommand{\bl}[1]{\width(#1)}
+
+\newcommand*{\equal}{=}
+\newcommand{\point}[1]{{\overline{#1}}}
+%\newcommand{\QED}{\hfill$\square$}
+\newcommand{\MPDA}{\ensuremath{\mathsf{dtMPDA}}\xspace}
+
+\newcommand{\curvearrowbotleft}{\curvearrowleft}
+\newcommand{\curvearrowbotright}{\curvearrowright}
+
+
+%%%%%%%%%%%%
+\newcommand{\Act}{\ensuremath{\mathsf{Act}}\xspace}
+\newcommand{\Left}{\ensuremath{\mathsf{Left}}\xspace}
+\newcommand{\Right}{\ensuremath{\mathsf{Right}}\xspace}
+
+\newcommand{\nxt}{\ensuremath{\mathsf{next}}\xspace}
+\newcommand{\prv}{\ensuremath{\mathsf{prev}}\xspace}
+\newcommand{\sd}{\ensuremath{\mathsf{sd}}\xspace}
+\newcommand{\SD}{\ensuremath{\mathsf{SD}}\xspace}
+%\newcommand{\ts}{\ensuremath{\mathsf{ts}}\xspace}
+\newcommand{\tsm}{\ensuremath{\mathsf{tsm}}\xspace}
+\newcommand{\acc}{\ensuremath{\mathsf{acc}}\xspace}
+\newcommand{\ACC}{\ensuremath{\mathsf{ACC}}\xspace}
+\newcommand{\Bool}{\ensuremath{\mathbb{B}}\xspace}
+\renewcommand{\matchrel}{\curvearrowright}
+%\newtheorem{definition}{Definition}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\nxtt}{\ensuremath{\mathsf{nexttransitions}}}
+
+\newcommand{\AS}{\ensuremath{\mathsf{\mathcal{A}_S}}}
+
+\newcommand{\valid}{\ensuremath{\mathsf{valid}}}
+
+\newcommand{\pushdone}{\ensuremath{\mathsf{pushdone}}}
+\newcommand{\pushat}{\ensuremath{\mathsf{pushat}}}
+\newcommand{\popat}{\ensuremath{\mathsf{popat}}}
+\newcommand{\pushsymbol}{\ensuremath{\mathsf{pushsymbol}}}
+\newcommand{\popsymbol}{\ensuremath{\mathsf{popsymbol}}}
+\newcommand{\stackop}[1]{\ensuremath{\mathsf{\curvearrowright^{#1}}}}
+%\newcommand{\realpos}{\ensuremath{\mathbb{R}_{\geq 0}}}
+\newcommand{\floor}[1]{\ensuremath{\lfloor #1 \rfloor}}
+\newcommand{\naturaln}{\ensuremath{\mathbb{N}}}
+\newcommand{\newstate}{\ensuremath{\mathsf{newstate}}}
+\newcommand{\resrecpnt}{\ensuremath{\mathsf{recentresetpoints}}}
+\newcommand{\state}{\ensuremath{\mathsf{state}}}
+\newcommand{\init}{\ensuremath{\mathsf{init}}}
+
+% \renewcommand{\to}{\ensuremath{\mathsf{\rightarrow}}}
+\newcommand{\chk}{\ensuremath{\mathsf{check}}}
+%\newcommand{\reset}{\ensuremath{\mathsf{reset}}}
+\newcommand{\stkop}{\ensuremath{\mathsf{stackop}}}
+\newcommand{\rsrcl}{\ensuremath{\mathsf{RecentResetL}}}
+\newcommand{\rsrcr}{\ensuremath{\mathsf{RecentResetR}}}
+
+\newcommand{\timec}{\ensuremath{\mathsf{time}}}
+\newcommand{\parent}{\ensuremath{\mathsf{Parent}}}
+\newcommand{\parentop}{\ensuremath{\mathsf{ParentOp}}}
+%\newcommand{\cmax}{\ensuremath{\mathsf{c_{\max}}}}
+\newcommand{\sucplus}{\ensuremath{\overset{+}{\rightarrow}}}
+\newcommand{\suctran}{\ensuremath{\overset{*}{\rightarrow}}}
+%\newcommand{\clocks}{\ensuremath{\mathcal{X}}}
+\newcommand{\delay}{\ensuremath{\delta}}
+\newcommand{\timeg}{\ensuremath{\tau}}
+\newcommand{\absd}[1]{\ensuremath{\mathsf{Abs}(#1)}}
+\newcommand{\duration}{\ensuremath{\iota}}
+\newcommand{\tmu}{\ensuremath{\mu^T}}
+\newcommand{\absstate}{\ensuremath{\mathsf{AbsStates}}}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "ms"
+%%% End:

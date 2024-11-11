@@ -1,0 +1,144 @@
+\usepackage{lipsum}                     % Dummytext
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{xargs,xcolor}
+\usepackage{booktabs}
+\usepackage{flushend}
+\usepackage{balance}
+\usepackage{xspace}
+\usepackage{mathtools}
+%\usepackage{thmtools}
+%\usepackage{thm-restate}
+
+%\usepackage[pdftex,dvipsnames]{xcolor}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+\definecolor{myOrange}{RGB}{255, 140, 0}
+\newcommand{\lh}[1]{{\color{myOrange} #1}}
+\newcommand{\ak}[1]{{\color{red} #1}}
+\newcommand{\trc}[1]{\textcolor{red}{ #1}}
+\newcommand{\src}[1]{{\color{blue} #1}}
+\newcommand{\abs}[1]{\ensuremath{\lvert #1 \rvert}}
+\newcommand{\keresil}{$K\mbox{-}\exists\mbox{-}resilience$\xspace}
+\newcommand{\karesil}{$K\mbox{-}\forall\mbox{-}resilience$\xspace}
+\newcommand{\keresilnt}{$K\mbox{-}\exists\mbox{-}resilient$\xspace}
+\newcommand{\karesilnt}{$K\mbox{-}\forall\mbox{-}resilient$\xspace}
+\newcommand{\kpresil}{$K\mbox{-}prefix\mbox{-}resilience$\xspace}
+\newcommand{\kpresilnt}{$K\mbox{-}prefix\mbox{-}resilient$\xspace}
+\newcommand{\kprebtn}{$K\mbox{-}prefix\mbox{-}$BTN\xspace}
+\newcommand{\tbb}{\ensuremath{\mathfrak{B}}}
+\newcommand{\faultyta}{\ensuremath{\ta_{\mathcal P}}}
+\newcommand{\tafaulty}{\ensuremath{\ta_{\mathcal P}}}
+\newcommand{\ta}{\mathsf{\mathcal A}}
+\newcommand{\deta}{\ensuremath{Det(\ta)}}
+\newcommand{\fta}{\ensuremath{F(\ta)}}
+\newcommand{\detap}{\ensuremath{Det(\ta)^+}}
+\newcommand{\tap}{\mathsf{\mathcal A}^+}
+\newcommand{\fa}{\mathsf{\mathcal A_P}}
+\newcommand{\tb}{\mathsf{\mathcal B}}
+\newcommand{\tbp}{\mathsf{\mathcal B}^+}
+\newcommand{\tc}{\mathsf{\mathcal C}}
+\newcommand{\td}{\mathsf{\mathcal D}}
+\newcommand{\rr}[1]{\texttt{ReachableRegion($#1$)}}
+\newcommand{\tsigma}{{\tilde{\sigma}}}
+\newcommand{\reg}[1]{Reg(#1)}
+\newcommand{\erta}{ERTA}
+\newcommand{\guards}{\mathcal G}
+\newcommand{\region}[1]{\mathcal R(#1)}
+\newcommand{\regionst}[1]{\mathcal R_{\text{strong}}(#1)}
+\newcommand{\regionab}{\ensuremath{\region{\faultyta\otimes_{K} \ta}}}
+\newcommand{\ssregionab}{\ensuremath{2^{\region{\faultyta\otimes_{K} \ta}}}}
+\newcommand{\regions}[1]{\mathcal{R}^s(#1)}
+\newcommand{\regiononef}[1]{\mathcal{R}^{1F}(#1)}
+\newcommand{\lang}[1]{\mathcal L(#1)}
+%\newcommand{\det}[1]{\mathcal Det(#1)}
+\newcommand{\langonef}[1]{\mathcal L^{1F}(#1)}
+\newcommand{\langf}[1]{\mathcal L^{F}(#1)}
+\newcommand{\Iff}{if and only if \xspace}
+
+\newcommand{\shift}[1]{\rhd #1}
+
+\newcommand{\faultmod}{\mathcal P}
+
+\newcommand{\faulty}[1]{\overset{\bullet}{#1}}
+
+%fractional part
+\newcommand{\fpart}[1]{\mathsf{f}(#1)}
+
+\newcommand{\untime}[1]{Unt(#1)}
+\newcommand{\Aa}{\mathcal A}
+\newcommand{\Cc}{\mathcal C}
+\newcommand{\Nn}{\mathbb{N}}
+\newcommand{\Tt}{\mathbb{T}}
+
+\newcommand{\suc}{\mathsf{succ}}
+\newcommand{\del}{\delta}
+\newcommand{\projr}[2]{\ensuremath{\Pi^{X_C}_{#1}(#2)}}
+\newcommand{\proj}[2]{\ensuremath{\Pi_{#1}(#2)}}
+\newcommand{\enum}[1]{\ensuremath{Enum(#1)}}
+\newcommand{\precreg}{\prec_R}
+
+\newcommand{\pra}{\region{\tb \times_K 2^\ta}}
+ \newcommand{\RP}{{\cal R}_{\otimes_K}}
+
+
+\usepackage{tikz}
+%\usepackage{ulem}
+\usepackage{color,colortbl}
+\usetikzlibrary{automata,positioning}
+
+
+\tikzstyle{cir}=[draw=green!60!red, fill=green!20!white,circle,minimum size=1.4em,inner sep=0em]                                                                                                      
+\tikzstyle{cir1}=[draw=red!80!violet, fill=red!20!white,circle,minimum size=1.4em,inner sep=0em]                                                                                                      
+\newcommand{\eirta}{$\epsilon\mbox{-}$IRTA\xspace}
+
+
+\definecolor{Gray}{gray}{0.9}
+\newcommand{\cmax}{\ensuremath{\mathsf{c_{\max}}}}
+\newcommand{\strongclock}{\ensuremath{x_\iota}}
+%%%%%%%% FROM PTA
+\newcommand{\twohalf}{\ensuremath{2\frac{1}{2}}}
+\newcommand{\onehalf}{\ensuremath{1\frac{1}{2}}}
+\newcommand{\half}{\ensuremath{\frac{1}{2}}}
+\usepackage{wasysym}
+\newcommand{\stg}{\ensuremath{\mathcal{G}}}
+\usepackage{multirow}
+\usetikzlibrary{automata,positioning}
+\usetikzlibrary{fit} % fitting shapes to coordinates
+\usetikzlibrary{backgrounds} % drawing the background after the foreground
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
+\usepgflibrary{shapes}
+\usetikzlibrary{snakes,automata}
+\usetikzlibrary{shadows}
+\tikzstyle{cir}=[draw=violet, fill=red!20!white,circle,minimum size=1.4em,inner sep=0em]                                                                                                      
+     \tikzstyle{dia}=[draw=green!80!red, fill=green!20!white, diamond,minimum size=1.4em,inner sep=0.1em]                                                                                                      
+\tikzstyle{cir1}=[draw=violet, fill=violet!20!white,circle,minimum
+size=1.4em,inner sep=0em]
+
+%%%%%%%%%%%%%%%%%%% MPDA
+\newcommand{\mpda}{\ensuremath{\mathsf{MPDA}}\xspace}
+\usepackage[notquote]{hanging}
+\usepackage{adjustbox}
+\newcommand{\set}[1]{\ensuremath{\{ #1 \}}}
+\setbeamertemplate{footnote}{
+ \hangpara{2em}{1}
+  \makebox[2em][l]{\insertfootnotemark}\footnotesize\insertfootnotetext\par%
+}
+\usetikzlibrary{automata,positioning}
+
+
+\tikzstyle{cir}=[draw=green!60!red, fill=green!20!white,circle,minimum size=1.4em,inner sep=0em]                                                                                                      
+\tikzstyle{cir1}=[draw=red!80!violet, fill=red!20!white,circle,minimum
+size=1.4em,inner sep=0em]
+\hypersetup{
+    colorlinks,
+    citecolor=magenta,
+    linkcolor=black
+}
+\newcommand\mycite[1]{{\scriptsize\cite{#1}}}
+
+\usepackage[sort]{natbib}
+% \usepackage{listings,booktabs}
+% \usepackage{multirow,bigdelim,dcolumn,amsmath}
+%\usepackage{inconsolata,rotating}
