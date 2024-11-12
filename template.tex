@@ -19,9 +19,11 @@
 % \usepackage{color,colortbl,amsmath,amssymb}              \usepackage{inconsolata,rotating}
 % \usepackage{adjustbox}                    \usepackage{pgfplotsthemetol}   
 
-\title{Revisiting Underapproximate Reachability for Multipushdown Systems} %% that will be typeset on the
+\title{Stochastic StopWatch Games} %% that will be typeset on the
+%\title{Revisiting Underapproximate Reachability for Multipushdown Systems} %% that will be typeset on the
 %%\subtitle{PhD Defense} %% title page.
-\author{\emph{Sparsa Roychowdhury}, Prof. S Akshay, Prof. S Krishna, and \\ Prof. Paul Gastin }
+\author{\emph{Sparsa Roychowdhury}}
+%, Prof. S Akshay, Prof. S Krishna, and \\ Prof. Paul Gastin }
 
 % \usepackage{ragged2e}  % `\justifying` text
 % \usepackage{booktabs}  % Tables
@@ -68,15 +70,27 @@
   \begin{frame}{Outline}
   \begin{itemize}
       \item Introduction
-      \item Multistack Pushdown Automata (MPDA)
-      \item Hole bounded runs of MPDA
-      \item Algorithm 
-      \item Extension to time
-      \item Implementation
-      \item Experiments
+      \item  Model Checking
+      \item Motivation
+      \item Timed Automata
+      \item Stochastic Timed Games
+      \item Stochastic Stopwatch Games
+      \item Results
       \item Conclusion
   \end{itemize}
   \end{frame}
+  %\begin{frame}{Outline}
+  %\begin{itemize}
+  %    \item Introduction
+  %    \item Multistack Pushdown Automata (MPDA)
+  %    \item Hole bounded runs of MPDA
+  %    \item Algorithm
+  %    \item Extension to time
+  %    \item Implementation
+  %    \item Experiments
+  %    \item Conclusion
+  %\end{itemize}
+  %\end{frame}
   %%%%%%%%%%%%%%%%%%
   \section{Introduction}
   \begin{frame}{Introduction}
@@ -157,648 +171,648 @@ decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}},
       
        %%%%%%%%%%%%%%%%%%%%%%%%
   %\subsection{Motivation}
-  \begin{frame}{Multi-stack Pushdown Automata}
-  \begin{itemize}
-  \item Verification of \textcolor{red}{recursive concurrent programs}
-    is an active area of interest
-
-  \item Behaviours of recursive concurrent programs can be modeled
-    using \textcolor{red}{multi-stack pushdown automata(MPDA)}
- 
-   
-   
-
-\end{itemize}
-
-\begin{figure}[t]
-  \centering \scalebox{1}{
-    \begin{tikzpicture}[on grid,scale=0.5, every
-      node/.style={scale=0.5},]
-      \node[state] (q_1) [state] {$q_1$}; \node[state,initial,initial
-      text={}] (q_0)[below=of q_1] {$q_0$};
-
-      \node[state] (q_2) [right=of q_1,xshift=1cm] {$q_2$};
-      \node[state,accepting] (q_3) [right=of q_2,xshift=.5cm] {$q_3$};
-      \node[state] (q_4) [right=of q_3,xshift=.5cm] {$q_4$};
-      \node[state] (q_5) [below=of q_3,yshift=-1cm] {$q_5$};
-      \node[state] (q_6) [below=of q_4,yshift=-1cm] {$q_6$};
-
-  
-      \path[->] (q_0) edge node [right,align=left]
-      {$a,push^1(\alpha)$} (q_1) (q_1) edge node [above,align=left]
-      {$b,push^2(\beta)$} (q_2) edge [loop above] node [above,
-      align=left] {$a,push^1(\alpha)$} (q_1)
-                   
-      (q_2) edge (q_3) edge [loop above] node [above, align=left]
-      {$b,push^2(\beta)$} (q_2) (q_3) edge (q_4) edge [loop above]
-      node [above, align=left] {$a,push^1(\gamma)$} (q_3) (q_4)
-      edge[bend left] node [right,align=left] {$c,pop^1(\alpha)$}(q_6)
-      edge [loop above] node [above, align=left] {$c,pop^1(\gamma)$}
-      (q_4) (q_6) edge node [above,align=left] {$ $}(q_5) edge
-      [in=120,out=150,loop] node [above, align=left]
-      {$b,push^2(\gamma)~~~~~~$} (q_6) (q_5) edge node
-      [left,align=left] {$d,pop^2(\beta)$}(q_3) edge [loop left] node
-      [left, align=left] {$d,pop^2(\gamma)$} (q_5) ;
-                 
-            
-    \end{tikzpicture}}
-\end{figure}
- \scriptsize{A Multistack Pushdown Automata accepting the
-  language:
-  $L^{bh} = \{a^nb^n(a^{q_1}c^{q_1+1}b^{q'_1}d^{q'_1+1}\cdots
-  a^{q_n}c^{q_n+1}b^{q'_n}d^{q'_n+1})\mid n ,q_i,q'_i \in
-  \mathbb{N}, \forall i \in [n]\}$
-}
-\end{frame}
+%  \begin{frame}{Multi-stack Pushdown Automata}
+%  \begin{itemize}
+%  \item Verification of \textcolor{red}{recursive concurrent programs}
+%    is an active area of interest
+%
+%  \item Behaviours of recursive concurrent programs can be modeled
+%    using \textcolor{red}{multi-stack pushdown automata(MPDA)}
+%
+%
+%
+%
+%\end{itemize}
+%
+%\begin{figure}[t]
+%  \centering \scalebox{1}{
+%    \begin{tikzpicture}[on grid,scale=0.5, every
+%      node/.style={scale=0.5},]
+%      \node[state] (q_1) [state] {$q_1$}; \node[state,initial,initial
+%      text={}] (q_0)[below=of q_1] {$q_0$};
+%
+%      \node[state] (q_2) [right=of q_1,xshift=1cm] {$q_2$};
+%      \node[state,accepting] (q_3) [right=of q_2,xshift=.5cm] {$q_3$};
+%      \node[state] (q_4) [right=of q_3,xshift=.5cm] {$q_4$};
+%      \node[state] (q_5) [below=of q_3,yshift=-1cm] {$q_5$};
+%      \node[state] (q_6) [below=of q_4,yshift=-1cm] {$q_6$};
+%
+%
+%      \path[->] (q_0) edge node [right,align=left]
+%      {$a,push^1(\alpha)$} (q_1) (q_1) edge node [above,align=left]
+%      {$b,push^2(\beta)$} (q_2) edge [loop above] node [above,
+%      align=left] {$a,push^1(\alpha)$} (q_1)
+%
+%      (q_2) edge (q_3) edge [loop above] node [above, align=left]
+%      {$b,push^2(\beta)$} (q_2) (q_3) edge (q_4) edge [loop above]
+%      node [above, align=left] {$a,push^1(\gamma)$} (q_3) (q_4)
+%      edge[bend left] node [right,align=left] {$c,pop^1(\alpha)$}(q_6)
+%      edge [loop above] node [above, align=left] {$c,pop^1(\gamma)$}
+%      (q_4) (q_6) edge node [above,align=left] {$ $}(q_5) edge
+%      [in=120,out=150,loop] node [above, align=left]
+%      {$b,push^2(\gamma)~~~~~~$} (q_6) (q_5) edge node
+%      [left,align=left] {$d,pop^2(\beta)$}(q_3) edge [loop left] node
+%      [left, align=left] {$d,pop^2(\gamma)$} (q_5) ;
+%
+%
+%    \end{tikzpicture}}
+%\end{figure}
+% \scriptsize{A Multistack Pushdown Automata accepting the
+%  language:
+%  $L^{bh} = \{a^nb^n(a^{q_1}c^{q_1+1}b^{q'_1}d^{q'_1+1}\cdots
+%  a^{q_n}c^{q_n+1}b^{q'_n}d^{q'_n+1})\mid n ,q_i,q'_i \in
+%  \mathbb{N}, \forall i \in [n]\}$
+%}
+%\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%
 
   %\pause
 %\subsection{Modeling}
-\begin{frame}{ Multi-stack Pushdown Automata}
-  \begin{itemize}
-  \item Multi-stack pushdown automata is \textcolor{red}{Turing
-      complete}
-  \item Reachability is Undecidable!!
-  \item \textcolor{red}{Under-approximation!} 
-    \begin{enumerate}
-    \item Bounded Round~\mycite{qadeer2004kiss,la2010language}
-    \item Bounded Scope~\mycite{torre2016scope}
-    \item Bounded Phase~\mycite{la2007robust} etc.
-    \end{enumerate}
-  \end{itemize}
-\end{frame}
-% %%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Capturing Behavior as Graphs}
-%\section{Capturing Behaviour}
-  Graphs can be used to represent set of runs
-  \begin{center}
-    \begin{tikzpicture}
-%\draw[step=1,black,thin] (-5,2) grid (5,5);
-      \node (a) at (-5,5) {
-\begin{tikzpicture}[on grid, scale=0.5, every node/.style={scale=0.5}]
-  \node[state,initial]   (q_0)                {$q_0$};
-  \node[state,accepting]           (q_1) [right=of q_0] {$q_1$};
-  %\node[state, accepting]           (q_2) [below=of q_1] {$q_2$};
-  %\node[state,accepting] (q_3) [below=of q_0] {$q_3$};
-  \path[->] (q_0) edge           (q_1)
-  (q_0) edge [loop above] node [above,
-      align=left] {$a,push(\alpha)$} (q_0)
-       (q_1) edge [loop above] node [above,
-      align=left] {$b,pop(\alpha)$} (q_1);
-            %(q_1) edge    node        [right] {$x:=0,x<1$} (q_2)
-            %(q_2)      edge [bend left]  node [below] {$x<1,0<pop(1)<2$} (q_3);
-            %(q_1) edge                node [above] {$y<1$} (q_2);
-
-\end{tikzpicture}
-};
-\node (b) at (2,5) {
-\begin{tikzpicture}
-\node (b1) [circle=black,fill,scale=.2] {};
-\node (b2) [right=of b1,circle=black,fill,scale=.2] {};
-\node (b3) [right=of b2,circle=black,fill,scale=.2] {};
-\node (b4) [right=of b3,circle=black,fill,scale=.2] {};
-\node (b5) [right=of b4,circle=black,fill,scale=.2] {};
-\node (b6) [right=of b5,circle=black,fill,scale=.2] {};
-\node (c1) [below=of b1,circle=black,scale=.4,yshift=2cm] {$push$};
-\node (c2) [below=of b2,circle=black,scale=.4,yshift=2cm] {$push$};
-\node (c3) [below=of b3,circle=black,scale=.4,yshift=2cm] {$push$};
-\node (c4) [below=of b4,circle=black,scale=.4,yshift=2cm] {$pop$};
-\node (c5) [below=of b5,circle=black,scale=.4,yshift=2cm] {$pop$};
-\node (c6) [below=of b6,circle=black,scale=.4,yshift=2cm] {$pop$};
-\draw[->] (b1) to [bend left=40]  (b6) ; 
-\draw[->] (b2) to [bend left=40]  (b5);
-\draw[->] (b3) to [bend left=40] (b4);
-
-%\draw[->] (b3) to[bend right=40] node[below,scale=.5]{$(0,2)$} (b1);
-\draw[->] (b1) to (b2);
-\draw[->] (b2) to (b3);
-\draw[dotted] (b3) to (b4);
-\draw[->] (b4) to (b5);
-\draw[->] (b5) to (b6);
-\end{tikzpicture}
-};
-    \end{tikzpicture}
-
-  \end{center}
-  % \pause
-  % \begin{alertblock}{Realizability}
-  %   real  time stamps, which satisfies the edge constraints.
-  % \end{alertblock}
-\end{frame}
-%%%%%%%%%%%%%%%%%
-  %\subsection{Definitions}
- \begin{frame}{Behavior Graph of an \mpda{}}
- \input{run_a.tex}
- \pause
-  \input{run.tex}
-   % \vspace{-1cm}
-  
-   % Every run of a \mpda{} is made of three basic blocks 
-   \begin{itemize}[<+->]
-   \item Well-nested sequence ($ws_{j}$) \textcolor{blue}{ can be
-       $\varepsilon$}
-     \item Pushes not part of a well-nested sequence (represented as
-       $\downarrow_i$ )
-        \item Matching pops that are matched with $\downarrow_i$ ( represented
-          as$\uparrow_{i}$) 
-     \item An atomic-i-segment of stack $i$ is a push $\downarrow_i$ followed by a
-       well-nested sequence $ws_{j}$.
-   \item An i-segment is the concatenation of multiple
-     atomic-i-segments 
-   
-   \end{itemize}
-\end{frame}
-% %%%%%%%%%%%%%%%
- \begin{frame}[t]{ Segments and holes}
-   \input{run.tex} 
-%   \vspace{-1cm}
-   \begin{itemize}[<+->]
- 
-   \item \textbf{Pending-push($\downarrow_{i}$)} of stack $i$ (w.r.t
-     a position \textcolor{red}{n}) \\
- \textcolor{red}{  \texttt{No matching pop prior  $n$ }}
-     
-  \item \textbf{An i-segment} is open if its first push transitions are
-    pending
-    \item \textbf{An i-hole} in a run is the maximal factor that is an open
-      i-segment 
-     \item  We denote by $\nbholes{\sigma}$ the number of holes in a run $\sigma$
-
-      
-    
-     
-  
-     
-   \end{itemize}
- \end{frame}
-% %%%%%%%%%%%%%%%%%%%%%%
- \begin{frame}{\textbf{Hole} Bounded runs of \mpda{}}
- 
-     \input{run.tex}
-   \begin{definition}
-     A run $\sigma$ is said to be \textcolor{red}{\textbf{$K$-hole}}
-     bounded if $\nbholes{\sigma} \leq K$, for $K\in \mathbb{N}$.
-   \end{definition}
-    \vspace{1cm} In \textcolor{red}{\textbf{hole} bounded}
-   reachability of \mpda{} we only search for a
-   \textcolor{red}{\textbf{K-hole}} bounded accepting run of \mpda{}
-   where, \textbf{K}$\in \mathbb{N}$.
- 
-    
- \end{frame}
-
-  %%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Contributions}
-\begin{frame}{Hierarchy of Under-approximations}
-
-   
-\begin{figure}[h!]
-  \centering \scalebox{0.8}{
-    \begin{tikzpicture}
-      \begin{scope}[blend group = soft light]
-        \fill[red!30!white] ( 1,0) ellipse (2 and 3);
-        \fill[green!30!white] (0,-1) ellipse (3 and 2);
-        \fill[blue!30!red] (1,-.5) ellipse ( 1.5 and 2.5);
-        \fill[blue!30!green] (1,-.75) circle (1);
-        
-      \end{scope}
-      \node[circle,fill,color=black,scale=.4] at ( 90:2) {};
-      \node[circle,fill,color=black,scale=.4] at ( 210:3) {}; \node at
-      (210:2.6) {$L^{ph}$}; \node at (91:2.2) {$L^{bh}$};
-      \node[scale=.5] at (1,2.5) {Bounded Holes}; \node[scale=.5] at (
-      1,1.5) {Bounded Scope}; \node[scale=.5] at (1,-.75) {Bounded
-        Context/Round}; \node[scale=.5] at (-1.5,-2) {Bounded Phase};
-      
-    \end{tikzpicture}
-  }
-\end{figure}
-
- $L^{ph} = \{(ab)^nc^nd^n| n \in \mathbb{N}\} $
- $L^{bh} = \{a^nb^n(a^{q_1}c^{q_1+1}b^{q'_1}d^{q'_1+1}\cdots  a^{q_n}c^{q_n+1}b^{q'_n}d^{q'_n+1})\mid n ,q_i,q'_i \in \mathbb{N}$
-\end{frame}
-%%%%%%%%%%%%%%%%%%%   5
-\begin{frame}{Algorithm  to Solve Hole bounded reachability}
-  \textbf{Question: } Given a MPDA and a bound $K\in \mathbb{N}$ does
-  there exists a $K$-hole bounded run that reaches a target state from
-  the initial state?
-  
-  \begin{itemize}
-  \item Algorithm
-    \begin{itemize}
-  \item Uses fixed-point computation 
-  \item Guided BFS exploration
-    \item Witness generation
-  \end{itemize}
-\end{itemize}
-\end{frame}
-%%%%%%%%%%%%%%%%%
-\begin{frame}[t]{Steps of the Algorithm}
-  We divide the algorithm in two parts,
-  \begin{enumerate}[<+->]
-  \item Fixed-point Computation and Memoization\\
-    \only<1>{\textcolor{red}{\texttt{Precomputes well nested runs ($ws$),
-        atomic open-hole $(\downarrow_{i}ws)$, and open-hole
-        $(\downarrow_{i}ws)^{+}$.}}}
-  \item On-The-Fly guided Breadth First Search (BFS) Exploration
-    \only<2>{\textcolor{red}{\texttt{Which solves hole bounded reachability
-        for \mpda{}}}}
-  \end{enumerate}
-\end{frame}
-
-  %%%%%%%%%%%%%%%%%%%
-      \begin{frame}{Computing Well-Nested Sequences}
-        \begin{center}
-        \begin{tikzpicture}[overlay, on grid, scale=0.5, every node/.style={scale=0.5},]
-         \only<1->{ \node[state] at (-6,0) (q_1)  {$s_i$};}
-          \only<1-3>{\node[state, right=2cm of q_1] (q_2) {$s_j$};}
-         \only<2-3>{ \node[state, right=2cm of q_2] (q_3) {$s_k$};}
-        \only<3->{  \node[state, right=2cm of q_3] (q_4) {$s_l$};}
-         \only<1-3>{ \path[->] (q_1) edge  node [above, align=left]
-          {$\downarrow^n(\alpha)$} (q_2);}
-          \only<2-3>{\path[->] (q_2) edge   (q_3);}
-          \only<3>{ \path[->] (q_3) edge  node [above, align=left] {$\uparrow^n(\alpha)$} (q_4);}
-           \only<4->{\path[->] (q_1) edge  (q_4);}
-           \only<4->{ \path[->] (q_1) edge[bend left]  node [above, align=left] {} (q_4);}
-          
-        \end{tikzpicture}
-\end{center}
-\end{frame} 
-%%%%%%%%%%
-  \begin{frame}{Computing Well-Nested Sequences}
-      For all state $s_i$, create the following entries,
-      \begin{itemize}
-      \item $(s_i,s_i)$ 
-        \item $(s_i,s_k)$ if $s_k$ is reachable by
-          discrete transition
-        \end{itemize}
-
-        \pause
-        \begin{center}  
- \scalebox{0.8}{ %\schema[close]{     
-    \begin{tabular}{ c|c|c|c|c c }
-        $\ddots$ & $s_j$ & $\dots$ &$s_k$& $\dots$&
-                                                    \rdelim\}{4}{0cm}[$\mid
-                                                    \mathcal{S}\mid$]
-      \tabularnewline
-        \hline
-        $\vdots$ & $\vdots$ & $\dots$ &$\vdots$ &$\dots$\tabularnewline
-        \hline                     
-        $s_i$ & $1$ & $\dots$& $0$ & $\dots$\tabularnewline
-        \hline
-        $\vdots$ &  $\vdots$&$\dots$ &$\vdots$ &$\ddots$ \tabularnewline
-      \end{tabular}
-    }
-    \end{center}
-%            \scalebox{.8}{      
-%         \schema[close]{
-       
-           
-%            \begin{tabular}{ c|c|c|c|c } 
- 
-%            $\ddots$ & $s_i$ &$ \dots$ &$s_k$&$ \dots$ \\
-%              \hline
-%              $\vdots$ & $\vdots$ & $\dots$ &$\vdots$ &$\dots$\\
-%              \hline
-                                                       
-%              $s_i$ & 1 & $\dots$& 0 &$ \dots$\\
-%              \hline
-%             $\vdots$ & $ \vdots$&$\dots$ &$\vdots$ &$\ddots$ \\
-           
-%            \end{tabular}
-           
-        
-% }{$|\mathcal{S}|$}
-% }
-
-   %     Size of the matrix is : 
-\pause
-
-
-        \textcolor{red}{Transitive Closure} will give us the
-        $\textbf{well-nested}$ sequences
-        
-      \end{frame}
-      %%%%%%%%%%%%%%%
-        \begin{frame}{Computing i-segments and i-holes}
-        \begin{itemize}[<+->]
-              \item An \textbf{i-segment} $(\downarrow^i(\alpha)ws)$ for a
-               stack $i$ is a pending push($\downarrow^i$) followed by
-               a maximal \textbf{well-nested} sequence($ws$)
-                
-
-              \item  We can pre-compute all possible \textbf{i-segments} by concatenating well-nested sequences after a push transition of stack $i$. 
-              
-              \item Assume we store this information in $M^i$
-              
-
-              \item Dropping stack alphabet and doing transitive closure
-               on $M^i$ gives us information of all \textbf{i-Holes}, ($M^h_i$).
-               \end{itemize}
-
-               
-                 \begin{center}
-                 
-    \begin{tikzpicture}[overlay,on grid,scale=0.5, every
-      node/.style={scale=0.5},]
-      \only<1->{ \node[state] at (-6,0) (q_1) {$s_i$};}
-      \only<1->{\node[state,right=2cm of q_1] (q_2) {$s_j$};}
-      \only<1->{ \node[state,right=2cm of q_2] (q_3) {$s_k$};}
-      %\only<2->{ \node[state,right=2cm of q_3] (q_4) {$s_l$};}
-      \only<1->{ \path[->] (q_1) edge node [above,align=left]
-        {$\downarrow^i(\alpha)$} (q_2);} \only<1->{\path[->] (q_2)
-        edge node [above,align=left]
-        {$ws$} (q_3);}
-      % \only<2>{ \path[->] (q_3) edge node
-      %   [above,align=left] {$\uparrow^i(\alpha)$} (q_4);}
-      % \only<3->{\path[->] (q_1) edge  node [above,align=left]
-      %   {$ws'=\downarrow^i(\alpha)\cdot ws\cdot\uparrow^n(\alpha)$} (q_4);}
-      %\only<5->{ \path[->]
-       % (q_1) edge[bend left] node [above,align=left] {} (q_4);}
-          
-    \end{tikzpicture}
-  \end{center}  
-              \end{frame}
-      %%%%%%%%%%%
-      \begin{frame}{Blocks of a run of \mpda{}}
-  \input{run.tex}
-  % \vspace{-1cm}
- 
-  Every run of a \mpda{} is made of three basic blocks 
-  \begin{itemize}
-  \item Well-nested sequence ($ws_{j}$)
-  \item Hole (sequence of $\downarrow_{i}ws_{j}$)
-    \item Matching-pops ($\uparrow_{i}$)
-  \end{itemize}
-\end{frame}
-      %%%%%%%%%%%%%%
-      %%%%%%
-
-      %%%%%%%%%%%%%%%%
-      \begin{frame}{Breadth First Search Exploration}
-  \begin{figure}[t]
-  \centering
-\scalebox{.55}{
-\begin{tikzpicture}[->,thick]
-\tikzset
-  {dest/.style={rounded rectangle,draw=violet,minimum width=0.5mm,inner sep=0.5mm}}
- \node[dest] (s0) at (0,0) {\Large{$s_0$}};
-   \node[dest] (s1) at (-2.5,-2) {\Large{$\mu_2$}};
-   \node[state, draw=white] (s12) at (-2,-3) {};
-  % \node[state, draw=white] (s14) at (-4,-3) {$\dots$};
-      \node[state, draw=white] (s13) at (-3,-3) {};
-   
-   
- \node[dest] (s2) at (-6.7,-2) {\Large{$\mu_1$}};
-   \node[state, draw=white] (s21) at (-7.5,-3) {};
- %  \node[state, draw=white] (s22) at (-6.7,-3) {};%$\dots$};
-      \node[state, draw=white] (s23) at (-6,-3) {};
- 
-  \node[state,draw=white] (d0) at (-4,-2) {$\dots$};
-
-  \node[dest] (s3) at (2,-2) {\Large{$\mu_3$}};
- % $[\textcolor{red}{(s_0,\nu_0)_{L_i},t,(s_3, \nu_3)_{R_i}},\textcolor{blue}{0, (s_3, \nu_3)}]$
-   \node[state, draw=white] (s31) at (1,-3) {};
-%   \node[state, draw=white] (s32) at (-2,-3) {};%$\dots$};
-%   \node[state, draw=white] (s33) at (0,-3) {$\dots$};
-
-  \node[state,draw=white] (d1) at (4,-2) {$\dots$};
- \node[dest] (s4) at (6,-2) {\Large{$\mu_4$}};
-
-% \node[dest] (s5) at (3,-1) {};
- \path(s0) edge[bend right=20] node[left] {\Large{Extend $ws$}} node{}(s1);
-  \path(s0) edge[ bend right=20] node[left] {\Large{Extend with pop}} node{}(s2);
-  \path(s0) edge[] node[right] {\Large{Create $i$-hole} }node{}(s3);
-  \path(s0) edge[bend left=20] node[right] {\Large{extend with $j$-hole}} node{}(s4);
-  \path(s1) edge[] node[above] {} node{}(s12);
-  \path(s1) edge[] node[above] {} node{}(s13);
- 
-  \path(s2) edge[] node[above] {} node{}(s21);
-  \path(s2) edge[] node[above] {} node{}(s23);
- \path(s3) edge[] node[above] {} node{}(s31);
- 
-\end{tikzpicture}}
-\label{run:comptree}
-\end{figure}
-
-     \input{run_animation.tex}
-    % \begin{itemize}[<+->]
-    % \item Start from $(s_0,\nu_0)$.
-    %   \item Extend this state using all possible
-    %     \textbf{holes}$(M^h_n)$,\textbf{well-nested}$(M)$ sequences, or
-    %     \textbf{pops}
-    %   \item each possible extension creates a new list($\mu_m$)
-       
-            
-    %       \end{itemize}
-          
-          
-  \end{frame}
-    %%%%%%%%%%%
-        \begin{frame}{Witness}
-  For well-nested runs, we can generate witness by a recursive
-  procedure.
-
-  \pause
-      
-  For runs which are not \textcolor{blue}{well-nested} backtracking is
-  used
-      
-
-      
-  \pause
-     
-
-\begin{center}
-  \includegraphics[scale=0.15]{fig/witness-fig.pdf}
-  \end{center}
-\end{frame}
-%%%%%%
-    \begin{frame}{Timed Automata~\mycite{alur1994theory}}
-      Timed automaton is a well-studied model that capture the behaviors of
-      real-time systems
-      \begin{itemize}
-      \item Finite States + Clocks 
-     \end{itemize}
-        % \begin{minipage}{0.45\textwidth}
-             \begin{figure}[ht!]   
-      \begin{tikzpicture}[->,thick]
-        \node[initial ,initial text={}] at (0,0) (A) {\includegraphics[scale=.1]{./fig/off.png}} ;
-        \node at (3,0) (B) {\includegraphics[scale=.1]{./fig/on.png}};
-         \node at (6,0) (C) {\includegraphics[scale=.1]{./fig/onn.png}};
-        %\node[cir] at (8,.5) (D) {D};
-        \path (A) edge node [below]{\scriptsize $press,\set{x}$} (B);
-        \path(C) edge [bend left=30] node [above]{\scriptsize $press$}(A);
-       % \path (B) edge node [above]{$3 \leq x\leq 4,\ e_2$} (D);
-        \path (B)
-        edge[bend right] node [above]{\scriptsize $press, x > 5$}(A);
-
-        \path (B) edge node [above]{\scriptsize $press,x \leq 5$} (C);
-      \end{tikzpicture}
-     \caption{A Timed Automaton.}
-    \label{fig:ex1}
-  \end{figure}
- 
-  \begin{itemize}
-     \item Infinite state space
-      \item Region construction
-        \item Reachability is PSPACE-C 
-        \end{itemize}
-      \end{frame}
-
-%%%%%%
-\begin{frame}{Extension to Time}
-  We also extend the algorithm to handle Timed Multistack Pushdown
-  Automata 
-  \begin{itemize}
-  \item  Clocks + Age (closed guards)
-  \item Data Structures
-    \item Timed witness generation
-  \end{itemize}    
- 
-  \end{frame}
-  %%%%%%%%%%%%%%%%%%%%
- \begin{frame}{\textcolor{blue}{BHIM}}
-  \begin{itemize}
-  \item We have built a tool \textcolor{blue}{BHIM\footnote{https://sparsa.github.io/bhim}} based on the algorithm
-      \item Works on both timed and untimed MPDA
-      \item Generates a run as a witness
-        of reachability
-      \item We tested our tool on a set of benchmarks
-    \end{itemize}
-  
-    {\scriptsize \textcolor{cyan}{$^1$}https://sparsa.github.io/bhim}
-    \end{frame}
-  %%%%%%%%%%%%%%%%%%%
-  \begin{frame}{Experiments}
-      \begin{table}[t]
-    \resizebox{\textwidth}{!}{ \centering
-    
-     \begin{tabular}{c| c| c| c| c| c| c|c } 
-       \toprule
-       Name & Locations & Transitions & Stacks &  Holes & Time
-                                                          Empty (mili sec) &
-                                                                             Time
-                                                                             Witness
-                                                                             (mili
-                                                                             sec)
-       & Memory(KB) \\ [0.5ex] 
-       \hline
-           
-       Bluetooth & 45&89 &2 &0 &149.3&0.241
-       & 6934 \\
-       \hline
-       
-
-       % Bluetooth v2 &47 &134 &2 &0 &92.2 &0.176
-       % & 5632\\
-       % \hline
-       MultiProdCons-1(2) & 11 & 18 & 2 & 2 &
-                                                                               11.1&0.1
-
-       &
-         1796
-        \\
-
-       \hline
-       
-
-       MultiProdCons-2(3,2) & 7 & 11 & 2 & 2 &
-                                                                                    126.529&0.281
-
-       &
-         5632
-       \\
-       \hline
-       MultiProdCons-2(24,7) & 32 & 34 & 2 & 2 &
-                                                                                      1879.33&10.63
-
-       &
-         21836
-       \\
-       \hline
-       dm-target & 22 & 27 & 2 & 2 &
-                                                              26.483&0.279
-
-       &
-         6624
-       \\
-       \hline
-             
-             
-
-       Binary Search Tree &29 & 78 & 2 & 2 &
-                                                                 60.8&5.1
-       &
-         5143
-       \\
-       \hline
-       untimed-L\textsuperscript{crit} & 6 & 10 & 2 &2&14.9&0.7 &4692\\ 
-       \hline
-       Untimed-Maze &9 & 12 &2 &0 & 8.25&0.07 &5558\\
-       \hline
-    
-       L\textsuperscript{bh} & 7 & 13 & 2 &2  & 22.2&0.6 &4404 \\
-       
-       
-       \hline
-      
-       
-       % \hyperref[sbs:dining]{Philosophers} & 11 & 13 & 2 & 2 &
-       % 0.0500
-       % &
-       % 5244
-       % \\
-       
-       % \hline
-       % Coffee Bean & & & & & & & & \\
-       \bottomrule
-     \end{tabular}
-   }
-   % \vspace*{-1mm}
-   \caption{\scriptsize Experimental results: Time Empty and Time Witness column
-     represents no. of milliseconds needed for emptiness checking and
-     to generate witness, respectively. }\label{tbl:experiment}
- \end{table}
-    
-\begin{table}[t]
-  \centering \resizebox{\textwidth}{!}{
-    \begin{tabular}{c| c| c| c| c| c| c| c| c| c|c}
-      \toprule
-      Name & Locations & Transitions & Stacks & Clocks &
-                                                         c\textsubscript{max}
-      &Aged(Y/N)& Holes & Time Empty(mili sec)& Time Witness (mili sec)  & Memory(KB) \\ [0.5ex] 
-      \hline
-           
-      Bluetooth & 45 &89&2&0&2&Y&0& 152.8 & 0.119
-                                                                         &5568\\
-      \hline
- 
-      L\textsuperscript{crit}  & 6 & 10 & 2 &2&8 & Y&2 & 9965.2 &3.7 & 203396\\ 
-      \hline
-      Maze &9 & 12 &2 &2 &5&Y &2 &349.3&0.31&11604\\
-
-      \hline
-    
-      
-      \bottomrule
-    \end{tabular}
-  }
-
-  \caption{\scriptsize Experimental results of timed examples. The column \cmax{}
-    is defined as the maximum constant in the automaton, and Aged
-    denotes if the stack is timed or not}\label{tbl:experimentTimed}
-\end{table}
-
-    \end{frame}
-  %%%%%%%%%%%%% 5
-   \begin{frame}{Conclusion}
-   \begin{itemize}[<+->]
-   \item A new underapproximation
-   \item Subsumes already known underapproximations
-   \item Decidable reachability
-   \item BHIM
-   \end{itemize}
-   \end{frame}
+%\begin{frame}{ Multi-stack Pushdown Automata}
+%  \begin{itemize}
+%  \item Multi-stack pushdown automata is \textcolor{red}{Turing
+%      complete}
+%  \item Reachability is Undecidable!!
+%  \item \textcolor{red}{Under-approximation!}
+%    \begin{enumerate}
+%    \item Bounded Round~\mycite{qadeer2004kiss,la2010language}
+%    \item Bounded Scope~\mycite{torre2016scope}
+%    \item Bounded Phase~\mycite{la2007robust} etc.
+%    \end{enumerate}
+%  \end{itemize}
+%\end{frame}
+%% %%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Capturing Behavior as Graphs}
+%%\section{Capturing Behaviour}
+%  Graphs can be used to represent set of runs
+%  \begin{center}
+%    \begin{tikzpicture}
+%%\draw[step=1,black,thin] (-5,2) grid (5,5);
+%      \node (a) at (-5,5) {
+%\begin{tikzpicture}[on grid, scale=0.5, every node/.style={scale=0.5}]
+%  \node[state,initial]   (q_0)                {$q_0$};
+%  \node[state,accepting]           (q_1) [right=of q_0] {$q_1$};
+%  %\node[state, accepting]           (q_2) [below=of q_1] {$q_2$};
+%  %\node[state,accepting] (q_3) [below=of q_0] {$q_3$};
+%  \path[->] (q_0) edge           (q_1)
+%  (q_0) edge [loop above] node [above,
+%      align=left] {$a,push(\alpha)$} (q_0)
+%       (q_1) edge [loop above] node [above,
+%      align=left] {$b,pop(\alpha)$} (q_1);
+%            %(q_1) edge    node        [right] {$x:=0,x<1$} (q_2)
+%            %(q_2)      edge [bend left]  node [below] {$x<1,0<pop(1)<2$} (q_3);
+%            %(q_1) edge                node [above] {$y<1$} (q_2);
+%
+%\end{tikzpicture}
+%};
+%\node (b) at (2,5) {
+%\begin{tikzpicture}
+%\node (b1) [circle=black,fill,scale=.2] {};
+%\node (b2) [right=of b1,circle=black,fill,scale=.2] {};
+%\node (b3) [right=of b2,circle=black,fill,scale=.2] {};
+%\node (b4) [right=of b3,circle=black,fill,scale=.2] {};
+%\node (b5) [right=of b4,circle=black,fill,scale=.2] {};
+%\node (b6) [right=of b5,circle=black,fill,scale=.2] {};
+%\node (c1) [below=of b1,circle=black,scale=.4,yshift=2cm] {$push$};
+%\node (c2) [below=of b2,circle=black,scale=.4,yshift=2cm] {$push$};
+%\node (c3) [below=of b3,circle=black,scale=.4,yshift=2cm] {$push$};
+%\node (c4) [below=of b4,circle=black,scale=.4,yshift=2cm] {$pop$};
+%\node (c5) [below=of b5,circle=black,scale=.4,yshift=2cm] {$pop$};
+%\node (c6) [below=of b6,circle=black,scale=.4,yshift=2cm] {$pop$};
+%\draw[->] (b1) to [bend left=40]  (b6) ;
+%\draw[->] (b2) to [bend left=40]  (b5);
+%\draw[->] (b3) to [bend left=40] (b4);
+%
+%%\draw[->] (b3) to[bend right=40] node[below,scale=.5]{$(0,2)$} (b1);
+%\draw[->] (b1) to (b2);
+%\draw[->] (b2) to (b3);
+%\draw[dotted] (b3) to (b4);
+%\draw[->] (b4) to (b5);
+%\draw[->] (b5) to (b6);
+%\end{tikzpicture}
+%};
+%    \end{tikzpicture}
+%
+%  \end{center}
+%  % \pause
+%  % \begin{alertblock}{Realizability}
+%  %   real  time stamps, which satisfies the edge constraints.
+%  % \end{alertblock}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%
+%  %\subsection{Definitions}
+% \begin{frame}{Behavior Graph of an \mpda{}}
+% \input{run_a.tex}
+% \pause
+%  \input{run.tex}
+%   % \vspace{-1cm}
+%
+%   % Every run of a \mpda{} is made of three basic blocks
+%   \begin{itemize}[<+->]
+%   \item Well-nested sequence ($ws_{j}$) \textcolor{blue}{ can be
+%       $\varepsilon$}
+%     \item Pushes not part of a well-nested sequence (represented as
+%       $\downarrow_i$ )
+%        \item Matching pops that are matched with $\downarrow_i$ ( represented
+%          as$\uparrow_{i}$)
+%     \item An atomic-i-segment of stack $i$ is a push $\downarrow_i$ followed by a
+%       well-nested sequence $ws_{j}$.
+%   \item An i-segment is the concatenation of multiple
+%     atomic-i-segments
+%
+%   \end{itemize}
+%\end{frame}
+%% %%%%%%%%%%%%%%%
+% \begin{frame}[t]{ Segments and holes}
+%   \input{run.tex}
+%%   \vspace{-1cm}
+%   \begin{itemize}[<+->]
+%
+%   \item \textbf{Pending-push($\downarrow_{i}$)} of stack $i$ (w.r.t
+%     a position \textcolor{red}{n}) \\
+% \textcolor{red}{  \texttt{No matching pop prior  $n$ }}
+%
+%  \item \textbf{An i-segment} is open if its first push transitions are
+%    pending
+%    \item \textbf{An i-hole} in a run is the maximal factor that is an open
+%      i-segment
+%     \item  We denote by $\nbholes{\sigma}$ the number of holes in a run $\sigma$
+%
+%
+%
+%
+%
+%
+%   \end{itemize}
+% \end{frame}
+%% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}{\textbf{Hole} Bounded runs of \mpda{}}
+%
+%     \input{run.tex}
+%   \begin{definition}
+%     A run $\sigma$ is said to be \textcolor{red}{\textbf{$K$-hole}}
+%     bounded if $\nbholes{\sigma} \leq K$, for $K\in \mathbb{N}$.
+%   \end{definition}
+%    \vspace{1cm} In \textcolor{red}{\textbf{hole} bounded}
+%   reachability of \mpda{} we only search for a
+%   \textcolor{red}{\textbf{K-hole}} bounded accepting run of \mpda{}
+%   where, \textbf{K}$\in \mathbb{N}$.
+%
+%
+% \end{frame}
+%
+%  %%%%%%%%%%%%%%%%%%%%%%%
+%%\subsection{Contributions}
+%\begin{frame}{Hierarchy of Under-approximations}
+%
+%
+%\begin{figure}[h!]
+%  \centering \scalebox{0.8}{
+%    \begin{tikzpicture}
+%      \begin{scope}[blend group = soft light]
+%        \fill[red!30!white] ( 1,0) ellipse (2 and 3);
+%        \fill[green!30!white] (0,-1) ellipse (3 and 2);
+%        \fill[blue!30!red] (1,-.5) ellipse ( 1.5 and 2.5);
+%        \fill[blue!30!green] (1,-.75) circle (1);
+%
+%      \end{scope}
+%      \node[circle,fill,color=black,scale=.4] at ( 90:2) {};
+%      \node[circle,fill,color=black,scale=.4] at ( 210:3) {}; \node at
+%      (210:2.6) {$L^{ph}$}; \node at (91:2.2) {$L^{bh}$};
+%      \node[scale=.5] at (1,2.5) {Bounded Holes}; \node[scale=.5] at (
+%      1,1.5) {Bounded Scope}; \node[scale=.5] at (1,-.75) {Bounded
+%        Context/Round}; \node[scale=.5] at (-1.5,-2) {Bounded Phase};
+%
+%    \end{tikzpicture}
+%  }
+%\end{figure}
+%
+% $L^{ph} = \{(ab)^nc^nd^n| n \in \mathbb{N}\} $
+% $L^{bh} = \{a^nb^n(a^{q_1}c^{q_1+1}b^{q'_1}d^{q'_1+1}\cdots  a^{q_n}c^{q_n+1}b^{q'_n}d^{q'_n+1})\mid n ,q_i,q'_i \in \mathbb{N}$
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%   5
+%\begin{frame}{Algorithm  to Solve Hole bounded reachability}
+%  \textbf{Question: } Given a MPDA and a bound $K\in \mathbb{N}$ does
+%  there exists a $K$-hole bounded run that reaches a target state from
+%  the initial state?
+%
+%  \begin{itemize}
+%  \item Algorithm
+%    \begin{itemize}
+%  \item Uses fixed-point computation
+%  \item Guided BFS exploration
+%    \item Witness generation
+%  \end{itemize}
+%\end{itemize}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%
+%\begin{frame}[t]{Steps of the Algorithm}
+%  We divide the algorithm in two parts,
+%  \begin{enumerate}[<+->]
+%  \item Fixed-point Computation and Memoization\\
+%    \only<1>{\textcolor{red}{\texttt{Precomputes well nested runs ($ws$),
+%        atomic open-hole $(\downarrow_{i}ws)$, and open-hole
+%        $(\downarrow_{i}ws)^{+}$.}}}
+%  \item On-The-Fly guided Breadth First Search (BFS) Exploration
+%    \only<2>{\textcolor{red}{\texttt{Which solves hole bounded reachability
+%        for \mpda{}}}}
+%  \end{enumerate}
+%\end{frame}
+%
+%  %%%%%%%%%%%%%%%%%%%
+%      \begin{frame}{Computing Well-Nested Sequences}
+%        \begin{center}
+%        \begin{tikzpicture}[overlay, on grid, scale=0.5, every node/.style={scale=0.5},]
+%         \only<1->{ \node[state] at (-6,0) (q_1)  {$s_i$};}
+%          \only<1-3>{\node[state, right=2cm of q_1] (q_2) {$s_j$};}
+%         \only<2-3>{ \node[state, right=2cm of q_2] (q_3) {$s_k$};}
+%        \only<3->{  \node[state, right=2cm of q_3] (q_4) {$s_l$};}
+%         \only<1-3>{ \path[->] (q_1) edge  node [above, align=left]
+%          {$\downarrow^n(\alpha)$} (q_2);}
+%          \only<2-3>{\path[->] (q_2) edge   (q_3);}
+%          \only<3>{ \path[->] (q_3) edge  node [above, align=left] {$\uparrow^n(\alpha)$} (q_4);}
+%           \only<4->{\path[->] (q_1) edge  (q_4);}
+%           \only<4->{ \path[->] (q_1) edge[bend left]  node [above, align=left] {} (q_4);}
+%
+%        \end{tikzpicture}
+%\end{center}
+%\end{frame}
+%%%%%%%%%%%
+%  \begin{frame}{Computing Well-Nested Sequences}
+%      For all state $s_i$, create the following entries,
+%      \begin{itemize}
+%      \item $(s_i,s_i)$
+%        \item $(s_i,s_k)$ if $s_k$ is reachable by
+%          discrete transition
+%        \end{itemize}
+%
+%        \pause
+%        \begin{center}
+% \scalebox{0.8}{ %\schema[close]{
+%    \begin{tabular}{ c|c|c|c|c c }
+%        $\ddots$ & $s_j$ & $\dots$ &$s_k$& $\dots$&
+%                                                    \rdelim\}{4}{0cm}[$\mid
+%                                                    \mathcal{S}\mid$]
+%      \tabularnewline
+%        \hline
+%        $\vdots$ & $\vdots$ & $\dots$ &$\vdots$ &$\dots$\tabularnewline
+%        \hline
+%        $s_i$ & $1$ & $\dots$& $0$ & $\dots$\tabularnewline
+%        \hline
+%        $\vdots$ &  $\vdots$&$\dots$ &$\vdots$ &$\ddots$ \tabularnewline
+%      \end{tabular}
+%    }
+%    \end{center}
+%%            \scalebox{.8}{
+%%         \schema[close]{
+%
+%
+%%            \begin{tabular}{ c|c|c|c|c }
+%
+%%            $\ddots$ & $s_i$ &$ \dots$ &$s_k$&$ \dots$ \\
+%%              \hline
+%%              $\vdots$ & $\vdots$ & $\dots$ &$\vdots$ &$\dots$\\
+%%              \hline
+%
+%%              $s_i$ & 1 & $\dots$& 0 &$ \dots$\\
+%%              \hline
+%%             $\vdots$ & $ \vdots$&$\dots$ &$\vdots$ &$\ddots$ \\
+%
+%%            \end{tabular}
+%
+%
+%% }{$|\mathcal{S}|$}
+%% }
+%
+%   %     Size of the matrix is :
+%\pause
+%
+%
+%        \textcolor{red}{Transitive Closure} will give us the
+%        $\textbf{well-nested}$ sequences
+%
+%      \end{frame}
+%      %%%%%%%%%%%%%%%
+%        \begin{frame}{Computing i-segments and i-holes}
+%        \begin{itemize}[<+->]
+%              \item An \textbf{i-segment} $(\downarrow^i(\alpha)ws)$ for a
+%               stack $i$ is a pending push($\downarrow^i$) followed by
+%               a maximal \textbf{well-nested} sequence($ws$)
+%
+%
+%              \item  We can pre-compute all possible \textbf{i-segments} by concatenating well-nested sequences after a push transition of stack $i$.
+%
+%              \item Assume we store this information in $M^i$
+%
+%
+%              \item Dropping stack alphabet and doing transitive closure
+%               on $M^i$ gives us information of all \textbf{i-Holes}, ($M^h_i$).
+%               \end{itemize}
+%
+%
+%                 \begin{center}
+%
+%    \begin{tikzpicture}[overlay,on grid,scale=0.5, every
+%      node/.style={scale=0.5},]
+%      \only<1->{ \node[state] at (-6,0) (q_1) {$s_i$};}
+%      \only<1->{\node[state,right=2cm of q_1] (q_2) {$s_j$};}
+%      \only<1->{ \node[state,right=2cm of q_2] (q_3) {$s_k$};}
+%      %\only<2->{ \node[state,right=2cm of q_3] (q_4) {$s_l$};}
+%      \only<1->{ \path[->] (q_1) edge node [above,align=left]
+%        {$\downarrow^i(\alpha)$} (q_2);} \only<1->{\path[->] (q_2)
+%        edge node [above,align=left]
+%        {$ws$} (q_3);}
+%      % \only<2>{ \path[->] (q_3) edge node
+%      %   [above,align=left] {$\uparrow^i(\alpha)$} (q_4);}
+%      % \only<3->{\path[->] (q_1) edge  node [above,align=left]
+%      %   {$ws'=\downarrow^i(\alpha)\cdot ws\cdot\uparrow^n(\alpha)$} (q_4);}
+%      %\only<5->{ \path[->]
+%       % (q_1) edge[bend left] node [above,align=left] {} (q_4);}
+%
+%    \end{tikzpicture}
+%  \end{center}
+%              \end{frame}
+%      %%%%%%%%%%%
+%      \begin{frame}{Blocks of a run of \mpda{}}
+%  \input{run.tex}
+%  % \vspace{-1cm}
+%
+%  Every run of a \mpda{} is made of three basic blocks
+%  \begin{itemize}
+%  \item Well-nested sequence ($ws_{j}$)
+%  \item Hole (sequence of $\downarrow_{i}ws_{j}$)
+%    \item Matching-pops ($\uparrow_{i}$)
+%  \end{itemize}
+%\end{frame}
+%      %%%%%%%%%%%%%%
+%      %%%%%%
+%
+%      %%%%%%%%%%%%%%%%
+%      \begin{frame}{Breadth First Search Exploration}
+%  \begin{figure}[t]
+%  \centering
+%\scalebox{.55}{
+%\begin{tikzpicture}[->,thick]
+%\tikzset
+%  {dest/.style={rounded rectangle,draw=violet,minimum width=0.5mm,inner sep=0.5mm}}
+% \node[dest] (s0) at (0,0) {\Large{$s_0$}};
+%   \node[dest] (s1) at (-2.5,-2) {\Large{$\mu_2$}};
+%   \node[state, draw=white] (s12) at (-2,-3) {};
+%  % \node[state, draw=white] (s14) at (-4,-3) {$\dots$};
+%      \node[state, draw=white] (s13) at (-3,-3) {};
+%
+%
+% \node[dest] (s2) at (-6.7,-2) {\Large{$\mu_1$}};
+%   \node[state, draw=white] (s21) at (-7.5,-3) {};
+% %  \node[state, draw=white] (s22) at (-6.7,-3) {};%$\dots$};
+%      \node[state, draw=white] (s23) at (-6,-3) {};
+%
+%  \node[state,draw=white] (d0) at (-4,-2) {$\dots$};
+%
+%  \node[dest] (s3) at (2,-2) {\Large{$\mu_3$}};
+% % $[\textcolor{red}{(s_0,\nu_0)_{L_i},t,(s_3, \nu_3)_{R_i}},\textcolor{blue}{0, (s_3, \nu_3)}]$
+%   \node[state, draw=white] (s31) at (1,-3) {};
+%%   \node[state, draw=white] (s32) at (-2,-3) {};%$\dots$};
+%%   \node[state, draw=white] (s33) at (0,-3) {$\dots$};
+%
+%  \node[state,draw=white] (d1) at (4,-2) {$\dots$};
+% \node[dest] (s4) at (6,-2) {\Large{$\mu_4$}};
+%
+%% \node[dest] (s5) at (3,-1) {};
+% \path(s0) edge[bend right=20] node[left] {\Large{Extend $ws$}} node{}(s1);
+%  \path(s0) edge[ bend right=20] node[left] {\Large{Extend with pop}} node{}(s2);
+%  \path(s0) edge[] node[right] {\Large{Create $i$-hole} }node{}(s3);
+%  \path(s0) edge[bend left=20] node[right] {\Large{extend with $j$-hole}} node{}(s4);
+%  \path(s1) edge[] node[above] {} node{}(s12);
+%  \path(s1) edge[] node[above] {} node{}(s13);
+%
+%  \path(s2) edge[] node[above] {} node{}(s21);
+%  \path(s2) edge[] node[above] {} node{}(s23);
+% \path(s3) edge[] node[above] {} node{}(s31);
+%
+%\end{tikzpicture}}
+%\label{run:comptree}
+%\end{figure}
+%
+%     \input{run_animation.tex}
+%    % \begin{itemize}[<+->]
+%    % \item Start from $(s_0,\nu_0)$.
+%    %   \item Extend this state using all possible
+%    %     \textbf{holes}$(M^h_n)$,\textbf{well-nested}$(M)$ sequences, or
+%    %     \textbf{pops}
+%    %   \item each possible extension creates a new list($\mu_m$)
+%
+%
+%    %       \end{itemize}
+%
+%
+%  \end{frame}
+%    %%%%%%%%%%%
+%        \begin{frame}{Witness}
+%  For well-nested runs, we can generate witness by a recursive
+%  procedure.
+%
+%  \pause
+%
+%  For runs which are not \textcolor{blue}{well-nested} backtracking is
+%  used
+%
+%
+%
+%  \pause
+%
+%
+%\begin{center}
+%  \includegraphics[scale=0.15]{fig/witness-fig.pdf}
+%  \end{center}
+%\end{frame}
+%%%%%%%
+%    \begin{frame}{Timed Automata~\mycite{alur1994theory}}
+%      Timed automaton is a well-studied model that capture the behaviors of
+%      real-time systems
+%      \begin{itemize}
+%      \item Finite States + Clocks
+%     \end{itemize}
+%        % \begin{minipage}{0.45\textwidth}
+%             \begin{figure}[ht!]
+%      \begin{tikzpicture}[->,thick]
+%        \node[initial ,initial text={}] at (0,0) (A) {\includegraphics[scale=.1]{./fig/off.png}} ;
+%        \node at (3,0) (B) {\includegraphics[scale=.1]{./fig/on.png}};
+%         \node at (6,0) (C) {\includegraphics[scale=.1]{./fig/onn.png}};
+%        %\node[cir] at (8,.5) (D) {D};
+%        \path (A) edge node [below]{\scriptsize $press,\set{x}$} (B);
+%        \path(C) edge [bend left=30] node [above]{\scriptsize $press$}(A);
+%       % \path (B) edge node [above]{$3 \leq x\leq 4,\ e_2$} (D);
+%        \path (B)
+%        edge[bend right] node [above]{\scriptsize $press, x > 5$}(A);
+%
+%        \path (B) edge node [above]{\scriptsize $press,x \leq 5$} (C);
+%      \end{tikzpicture}
+%     \caption{A Timed Automaton.}
+%    \label{fig:ex1}
+%  \end{figure}
+%
+%  \begin{itemize}
+%     \item Infinite state space
+%      \item Region construction
+%        \item Reachability is PSPACE-C
+%        \end{itemize}
+%      \end{frame}
+%
+%%%%%%%
+%\begin{frame}{Extension to Time}
+%  We also extend the algorithm to handle Timed Multistack Pushdown
+%  Automata
+%  \begin{itemize}
+%  \item  Clocks + Age (closed guards)
+%  \item Data Structures
+%    \item Timed witness generation
+%  \end{itemize}
+%
+%  \end{frame}
+%  %%%%%%%%%%%%%%%%%%%%
+% \begin{frame}{\textcolor{blue}{BHIM}}
+%  \begin{itemize}
+%  \item We have built a tool \textcolor{blue}{BHIM\footnote{https://sparsa.github.io/bhim}} based on the algorithm
+%      \item Works on both timed and untimed MPDA
+%      \item Generates a run as a witness
+%        of reachability
+%      \item We tested our tool on a set of benchmarks
+%    \end{itemize}
+%
+%    {\scriptsize \textcolor{cyan}{$^1$}https://sparsa.github.io/bhim}
+%    \end{frame}
+%  %%%%%%%%%%%%%%%%%%%
+%  \begin{frame}{Experiments}
+%      \begin{table}[t]
+%    \resizebox{\textwidth}{!}{ \centering
+%
+%     \begin{tabular}{c| c| c| c| c| c| c|c }
+%       \toprule
+%       Name & Locations & Transitions & Stacks &  Holes & Time
+%                                                          Empty (mili sec) &
+%                                                                             Time
+%                                                                             Witness
+%                                                                             (mili
+%                                                                             sec)
+%       & Memory(KB) \\ [0.5ex]
+%       \hline
+%
+%       Bluetooth & 45&89 &2 &0 &149.3&0.241
+%       & 6934 \\
+%       \hline
+%
+%
+%       % Bluetooth v2 &47 &134 &2 &0 &92.2 &0.176
+%       % & 5632\\
+%       % \hline
+%       MultiProdCons-1(2) & 11 & 18 & 2 & 2 &
+%                                                                               11.1&0.1
+%
+%       &
+%         1796
+%        \\
+%
+%       \hline
+%
+%
+%       MultiProdCons-2(3,2) & 7 & 11 & 2 & 2 &
+%                                                                                    126.529&0.281
+%
+%       &
+%         5632
+%       \\
+%       \hline
+%       MultiProdCons-2(24,7) & 32 & 34 & 2 & 2 &
+%                                                                                      1879.33&10.63
+%
+%       &
+%         21836
+%       \\
+%       \hline
+%       dm-target & 22 & 27 & 2 & 2 &
+%                                                              26.483&0.279
+%
+%       &
+%         6624
+%       \\
+%       \hline
+%
+%
+%
+%       Binary Search Tree &29 & 78 & 2 & 2 &
+%                                                                 60.8&5.1
+%       &
+%         5143
+%       \\
+%       \hline
+%       untimed-L\textsuperscript{crit} & 6 & 10 & 2 &2&14.9&0.7 &4692\\
+%       \hline
+%       Untimed-Maze &9 & 12 &2 &0 & 8.25&0.07 &5558\\
+%       \hline
+%
+%       L\textsuperscript{bh} & 7 & 13 & 2 &2  & 22.2&0.6 &4404 \\
+%
+%
+%       \hline
+%
+%
+%       % \hyperref[sbs:dining]{Philosophers} & 11 & 13 & 2 & 2 &
+%       % 0.0500
+%       % &
+%       % 5244
+%       % \\
+%
+%       % \hline
+%       % Coffee Bean & & & & & & & & \\
+%       \bottomrule
+%     \end{tabular}
+%   }
+%   % \vspace*{-1mm}
+%   \caption{\scriptsize Experimental results: Time Empty and Time Witness column
+%     represents no. of milliseconds needed for emptiness checking and
+%     to generate witness, respectively. }\label{tbl:experiment}
+% \end{table}
+%
+%\begin{table}[t]
+%  \centering \resizebox{\textwidth}{!}{
+%    \begin{tabular}{c| c| c| c| c| c| c| c| c| c|c}
+%      \toprule
+%      Name & Locations & Transitions & Stacks & Clocks &
+%                                                         c\textsubscript{max}
+%      &Aged(Y/N)& Holes & Time Empty(mili sec)& Time Witness (mili sec)  & Memory(KB) \\ [0.5ex]
+%      \hline
+%
+%      Bluetooth & 45 &89&2&0&2&Y&0& 152.8 & 0.119
+%                                                                         &5568\\
+%      \hline
+%
+%      L\textsuperscript{crit}  & 6 & 10 & 2 &2&8 & Y&2 & 9965.2 &3.7 & 203396\\
+%      \hline
+%      Maze &9 & 12 &2 &2 &5&Y &2 &349.3&0.31&11604\\
+%
+%      \hline
+%
+%
+%      \bottomrule
+%    \end{tabular}
+%  }
+%
+%  \caption{\scriptsize Experimental results of timed examples. The column \cmax{}
+%    is defined as the maximum constant in the automaton, and Aged
+%    denotes if the stack is timed or not}\label{tbl:experimentTimed}
+%\end{table}
+%
+%    \end{frame}
+%  %%%%%%%%%%%%% 5
+%   \begin{frame}{Conclusion}
+%   \begin{itemize}[<+->]
+%   \item A new underapproximation
+%   \item Subsumes already known underapproximations
+%   \item Decidable reachability
+%   \item BHIM
+%   \end{itemize}
+%   \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   \section{Part 2: Resilience }
 %   %\subsection{Motivation}
@@ -1301,371 +1315,421 @@ decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}},
 % %\subsection{Untimed Resilience}
 % %%%%%%%%%%%%%%% 5
 
-% \section{Part 3: Randomness}
-%   %\subsection{Motivation}
-%   \begin{frame}{Motivation}
-%     \begin{figure}
-%       \begin{center}
+ \section{Part 3: Randomness}
+   %\subsection{Motivation}
+   \begin{frame}{Motivation}
+     \begin{figure}
+       \begin{center}
 
-%       \begin{tikzpicture}[->,thick]
-%         \node[initial, dia, initial text ={}] at (0,0) (A) {J} ;
-%         \node[dia] at (6,0) (B) {F};
-%       \node[cir] at (2,0) (C) {S};
-      
-%        \node[dia] at (4,0) (C1) {C};
-    
-%        \path (A) edge node[ above] {New Job} (C);
-%        \path (C) edge [bend left] node[above] {Schedule} (C1);
-%        \path(C1) edge [bend left] node [below] {Interrupt} (C);
-%        \path(C1) edge node [above] {Finished} (B);
-     
-       
-%       \end{tikzpicture}
-  
-  
-%      % \caption{An example of }
-%     \label{fig:ex1}
-%   \end{center}
-% \end{figure}
-% \begin{itemize}
-% \item A scheduler ``S'' schedules new 
-%   jobs to the CPU ``C''
-%   \item The scheduler is stochastic
-% \item Every job has a CPU time requirement T  to complete
-   
-% \end{itemize}
-% Is it possible to finish a newly added job within
-%     some total time T\textsubscript{f}.
-% \end{frame}
-% %%%%%%%%%%%%%%%%%%%%%%5
-%   %\subsection{Modeling }
-  
-%       %%%%%%%%%%%%%%%%%%%
-   
-%      \begin{frame}{Time + Probability}
-%        \begin{itemize}
-%          \item Randomized delays and discrete
-%            choices~\mycite{Baier2008,Baier2007}
-%            \item Purely stochastic models might not be sufficient in
-%              real world problems
-%              \item Interactions with the environment
-%          \end{itemize}
-%       \end{frame}
-%       %%%%%%%%%%%%%%%%%
-      
-%       \begin{frame}{Stochastic Timed Games (STG) \mycite{icalp09}}
-%         \begin{itemize}
-%         \item Locations partitioned to players with competing
-%           objectives
-%           \begin{itemize}
-%           \item Some locations belong to the environment and  are
-%             probabilistic ($\ocircle$).
-%             \item Others belong to either player $\square$  or
-%               $\Diamond$.
-%               \item The environment is the \half-player.
-%             \end{itemize}
-%         \item \twohalf-player,
-%           \begin{itemize}
-%             \item $\square + \Diamond + \ocircle$ 
-%           \end{itemize}
-%         \item \onehalf-player,
-%           \begin{itemize}
-%             \item $\Diamond + \ocircle$ 
-%           \end{itemize}
-%         \item \half-player -- just the environment ($\ocircle$)
-          
-%         \end{itemize}
-       
-%       \end{frame}
-%       %%%%%%%%%%%%%
-      
-%       \begin{frame}{Qualitative reachability vs. Quantitative reachability}
-%         \begin{alertblock}{Reachability Question}
-%           \scriptsize
-%           Given a \twohalf-STG (resp. \onehalf-STG) \stg{} with a set T of target locations, an
-%           initial state $s_0$, and a threshold $ p$ does
-%           there exists a strategy of player $\Diamond$ ( resp. $\square$)
-%           such that for every strategy of other players, the 
-%           player $\Diamond$ (resp. $\square$)  can reach target T from $s_0$
-%           with probability $\bowtie p$?
-%           \pause
-%           \end{alertblock}
-%         \begin{block}{Qualitative reachability:}
-%          The constraint on probability $ p\in \set{0, 1}$
-%         \end{block}
-%         \begin{block}{Quantitative reachability:}
-%            The constraint on probability $ 0 < p < 1$
-           
-%         \end{block}
-        
-%       \end{frame}
+       \begin{tikzpicture}[->,thick]
+         \node[initial, dia, initial text ={}] at (0,0) (A) {J} ;
+         \node[dia] at (6,0) (B) {F};
+       \node[cir] at (2,0) (C) {S};
 
-%       %%%%%%%%%%%%%%%%%% 5
-%     %  \subsection{Known Results}
-%       \begin{frame}{Known results on STG}
-       
-%         \begin{table}[]
-%            \resizebox{\textwidth}{!}{
-%           \begin{tabular}{cccc}
-%             Model                & \#-Clocks & Qualitative                   & Quantitative                                                               \\
-%             \hline
-% \multirow{2}{*}{\half-Player}    & 1         & Decidable~\mycite{Baier2008}  & Decidable~\mycite{Jurdzinski2008}                                            \\
-%                                  & n         & {\bf Open}                    & {\bf Open}                                                                 \\
-%             \hline
-% \multirow{2}{*}{\onehalf-Player} & 1         & Decidable~\mycite{icalp09}
-%                                  & Decidable (initialized\footnote{})~\mycite{Akshay2016}                                                                 \\
-%                                  & n         & {\bf Open}                    & Undecidable~\mycite{Akshay2016}
-%                                                                                                                                                           \\
-%             \hline
-% \multirow{2}{*}{\twohalf-Player} & 1         & Decidable~\mycite{Akshay2016} & Decidable (initialized\footnotemark[\value{footnote}]~\mycite{Akshay2016}) \\
-%                                  & n         & {\bf Open}                    & Undecidable~\mycite{icalp09}                                               \\
-%             \hline
-%           \end{tabular}}
-        
-% \end{table}
-% {\scriptsize \textcolor{cyan}{$^2$}Initialized: Any transition from non-stochastic to stochastic
-%   location resets the clock}
-%         \end{frame} 
-%         %%%%%%%%%%%%%%%%%
-%        % \subsection{Definitions}
-%         \begin{frame}{StopWatches}
-%      \begin{block}{StopWatches} Clocks with derivative zero at some locations
-%      \end{block}
-%      \begin{itemize}[<+->]
-%        \item Can simulate linear hybrid automata~\mycite{Cassez2000}
-%      \item Reachability is \textcolor{red}{Undecidable!}
-%      \item Useful in job-scheduling~\mycite{Abdeddaim2002}
-       
-%      \end{itemize}
+        \node[dia] at (4,0) (C1) {C};
 
-%      \end{frame}
-%      %%%%%%%%%%%%%%%%%%%% 5
-     
-%      \begin{frame}{Stochastic StopWatch Games (SSG)}
-%        \begin{itemize}
-%        \item Extension of  STG
-%          \item Clocks are replaced with StopWatches
-%          \end{itemize}
-%                \begin{figure}[ht!]
-%   \begin{center}
-%     \begin{figure}
-%       \begin{center}
+        \path (A) edge node[ above] {New Job} (C);
+        \path (C) edge [bend left] node[above] {Schedule} (C1);
+        \path(C1) edge [bend left] node [below] {Interrupt} (C);
+        \path(C1) edge node [above] {Finished} (B);
 
-%       \begin{tikzpicture}[->,thick]
-%         \node[initial, dia, initial text ={}] at (0,0) (A) {J} ;
-%         \node[dia, accepting] at (9,0) (B) {F};
-%       \node[cir1] at (3,0) (C) {S};
-      
-%        \node[dia] at (6,0) (C1) {C};
-    
-%        \path (A) edge node[ above] {New Job} node[below] {$\set{x,x_c}$} (C);
-%        \path (C) edge [bend left] node[above] {Schedule} (C1);
-%        \path(C1) edge [bend left] node [below] {Interrupt} (C);
-%        \path(C1) edge node [above] {Finished} node [below] {$x_c == T
-%          \wedge x \leq T_f$}
-%           (B);
-     
-       
-%       \end{tikzpicture}
-  
-  
-%      % \caption{An example of }
-%     \label{fig:ex1}
-%   \end{center}
-% \end{figure}
-  
-  
-    
-%     \label{fig:ex1}
-%   \end{center}
-% \end{figure}
-% \begin{itemize}
-%   \item The stochastic scheduler  can be modeled as a
-%     $1\frac{1}{2}$ SSG with a clock $x$ and a stopwatch $x_c$
-%   \item The stopwatch only measures time when it is in CPU ``C''
-   
-%   \end{itemize}
-%         \end{frame}
-%         %%%%%%%%%%%%%%%
-%       % \subsection{Contributions}
-%        \begin{frame}{Results}
-%          \begin{block}{Results}
-%            For $\onehalf$-Player SSG Qualitative reachability,
-%            \begin{itemize}
-% \item         is decidable with 2 stopwatches and is EXPTIME-C
-% \item    is undecidable with 3 stopwatches.
-%   \end{itemize}
-%          \end{block}
-% %           \begin{table}[]
-% %            \resizebox{\textwidth}{!}{
-% %           \begin{tabular}{ccc}
-% %             Model& \#-StopWatches & Qualitative Reachability    \\
-% %             \hline
-% % \multirow{2}{*}{\onehalf-Player-SSG} &2 &Decidable (EXPTIME-Complete)\\
-                                                
-% %                  & 3  & Undecidable  \\
-% %             \hline
-% %           \end{tabular}}
-        
-% % \end{table}
-        
-%           \end{frame}
-%           %%%%%%%%%%%%%%%%%
-         
-%           \begin{frame}{EXPTIME-Completeness I}
-%             \begin{block}{Region graph}
-%               One can construct a region graph
-%               of a stopwatch automata with two stopwatches
-%               \end{block}
-%              Membership:
-%             \begin{itemize}
-%             \item Backward fixed point algorithm on region graph of
-%               the \onehalf-player SSG with 2 stopwatches.
-%               \item The region graph is exponential to the model
-%               \item Algorithm is polynomial in the size of the graph
-%               \end{itemize}
-%             \end{frame}
-%             %%%%%%%%%%%%% 5
-%             \begin{frame}{EXPTIME-Completeness II}
-%               Hardness:
-%               \begin{itemize}
-%                 \item Qualitative reachability problem of
-%                   probabilistic timed automata (PTA) with two clocks is
-%                   EXPTIME-Complete~\mycite{Kwiatkowska2000}
-%                     \item We can build a \onehalf-SSG \stg with two
-%                       stopwatches corresponding a two clock PTA $\mathcal{P}$
-%                      \item By solving qualitative reachability of \stg
-%                        one can solve qualitative reachability of $\mathcal{P}$.
-%                      \end{itemize}
-%                    \end{frame}
-%                     %%%%%%%%%%%%%%%%%
-           
-%             \begin{frame}{Two Counter Machine}
-%               \begin{block}{Two Counter Machine} \scriptsize
-%                 A two counter machine $\mathcal{M}$ can be defined as a tuple $(L,\mathcal{C})$, where $L$ is the
-% finite state of instructions including the special instruction
-% ``HALT'', and $\mathcal{C}=\{C_{1},C_{2}\}$. The instruction can be any one of the
-% following types,
-%  \end{block}
-% \begin{itemize}\scriptsize
-% \item  (Increment the counter) $\ell_{p}$ : $C_{i}$ := $C_{i}+1; \textrm{ goto } \ell_{q};$,
-% \item  (Decrement the counter)
-%   $\ell_{p}$: $C_{i}$:= $C_{i}-1; \textrm{ goto } \ell_{q};$,
-%   \item (Checking zero)
-%   $\ell_{p}$: $\textrm{ if}~(C_{i} = 0) \textrm{ then goto } \ell_{q}$
-%   else goto $\ell_{r};$,
-%   \item (Halting instruction) $\ell_{q}$ : HALT;
-%   \end{itemize}
-% \end{frame}
-% %%%%%%%%%%%%%%%%%%%%%5
-%   \begin{frame}{Undecidability}
-%   \begin{block}{Non halting problem of 2-counter machine~\mycite{10.5555/1095587}}\scriptsize
-%    The non halting problem for
-% two-counter machine is undecidable
-%     \end{block}
-%               \begin{alertblock}{Theorem}\scriptsize Given a two counter machine $\mathcal{M}$, one can build
-%               a \onehalf-player SSG with three stopwatches, such that,
-%               the player will have a strategy to reach the target
-%               location T, if and only if the two counter machine does
-%               not halt.
-%             \end{alertblock}
-%             \pause
-%              \begin{exampleblock}{\scriptsize Qualitative Reachability of
-%                 \onehalf-player SSG with three stopwatches is Undecidable}
-%               \end{exampleblock}
-%             \end{frame}
-                  
-%             %%%%%%%%%%%%%%%
-%             \begin{frame}{Gadget for Decrementing Counter $C_1$}
-%                 \begin{figure} [!ht]
-%     \begin{center}
-%       \resizebox{\textwidth}{!}{
-%         \begin{tikzpicture}[->,thick]
-%           \tikzstyle{cir}=[draw, circle,minimum size=1.4em,inner
-%           sep=0em] \tikzstyle{dia}=[draw,diamond,minimum
-%           size=1.4em,inner sep=0em]
-                                                                                                                                                                         
-%           \node[initial, dia, initial text
-%           ={$x=\frac{1}{2^i3^j},y=0,z=0$}] at (-10,-6) (A) {$\ell_i$}
-%           ;
-    
-%           \node[dia] at (-8,-6) (B) {$B$};
-%           \node[dia,fill=blue!50] at
-%           (-6,-6) (C) {$C$}; \node[dia] at (-4,-6) (D) {$D$};
-%           \node[cir] at (-2,-6) (A6) {$E$};
-%           \node[dia] at (-1,-8) (L)
-%           {$\ell_j$};
-%           \node[draw=blue, fill=red!20, rectangle,
-%           accepting] at (-3,-8) (T) {$T$};
 
-%           \path (A) edge node
-%           [above]{$x=1?$} (B);
-%           \path (A) edge node [below]{$\{x,y\}$} 
-%           (B);
-%           \path (B) edge node [above]{$z=1?$} node
-%           [below]{$\{z\}$} (C);
-%           \path (C) edge node [above]{$y=1?$}
-%           node[below]{$\{y\}$} (D);
-%           \path (D) edge node
-%           [above]{$z=1?$} node[below]{$\{z,y\}$} (A6);
-%           \path (A6) edge
-%           node [right]{$z=0?$} (L);
-%           \path (A6) edge node
-%           [left]{$z=0?$} (T);
-%         \end{tikzpicture}
-%       }
-      
-%       \caption{Gadget Dec $C_1$}
-%       \label{fig:dec-c1-3var}
-%     \end{center}
-%   \end{figure}
-%   \begin{itemize}
-%     \item  On entry to node
-%       $\ell_i$, we have the values $x=\frac{1}{2^i3^j}$, $y=z=0$
-%     \item On node $C$  rate of $x = 0$
-%       \item At the stochastic node $E$
-%     the valuation
-%     $x=\frac{2}{2^{i}3^j} =
-%     \frac{1}{2^{i-1}3^{j}}$,$y=z=0$
-%     \item From the
-%     stochastic node $E$, $\ell_j$ and $T$ can be reached with
-%     probability $=\frac{1}{2}$ each
-%     \end{itemize}
-%   \end{frame}
-%   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   \begin{frame}{Simulating Two counter Machine}
-%     \begin{block}{Theorem}
-%   Given a two counter machine $\cal{M}$, Player $\Diamond$ has a
-%   strategy to reach a target node $T$  with probability 1
-%   in the constructed game graph $G(\cal{M})$ \Iff the two counter
-%   machine $\cal{M}$ does not halt.
-% \end{block}
-% \begin{itemize}
-%   \item Every gadget reaches the next location $\ell_j$ and target
-%     location $T$ with probability $\half$ each.
-%     \item Probability of reaching a target T in $G(\cal{M})$ is $P_{total} = \half
-%       + \half\times P_{rest}$
-%       \item If M reaches HALT, then we reach a T with probability < 1
-        
-%         \item If it M doesn't reach HALT, then it will run infinitely
-%           and $P_{total} = \sum_{n=1}^\infty 2^{-n} = 1$
-%   \end{itemize}
-%     \end{frame}
-         
-%     %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%     \section{Conclusion}
-%     \begin{frame}{Conclusion}
-%       \begin{itemize}
-%         \item In this thesis, we try to solve the following problems 
-%           \begin{enumerate}[<+->]
-%           \item Modeling multi-threaded \textcolor{red}{R}ecursive systems such that it is more expressive with decidable reachability and its extension to the timed system
-%           \item Methodology of checking \textcolor{red}{R}esilience of timed systems modeled in timed automata
-%           \item Modeling \textcolor{red}{R}andomness in timed systems using stochastic timed games.
-          
-%             \end{enumerate}
-%         \end{itemize}
-%     \end{frame}
-%     %%%%%%%5
+       \end{tikzpicture}
+
+
+      % \caption{An example of }
+     \label{fig:ex1}
+   \end{center}
+ \end{figure}
+ \begin{itemize}
+ \item A scheduler ``S'' schedules new
+   jobs to the CPU ``C''
+   \item The scheduler is stochastic and pre-emptive
+ \item Every job $J_i$ has a CPU time requirement $T_i$
+ \item Every job wastes some time waiting for its time for CPU
+ \item An iterrupt can pre-emptively remove a process from CPU
+\pause
+ \end{itemize}
+ \begin{block}{Query}
+ Is it possible to finish a newly added job within
+     some total time T\textsubscript{f}.
+\end{block}
+\begin{block}{Modeling challenge}
+Different notions of time and probability
+\end{block}
+ \end{frame}
+ %%%%%%%%%%%%%%%%%%%%%%5
+   %\subsection{Modeling }
+
+  %%%%%%%%%%%%%%%%%%%
+
+    \begin{frame}{Timed Automata~\mycite{alur1994theory}}
+      Timed automaton is a well-studied model that capture the behaviors of
+      real-time systems
+      \begin{itemize}
+      \item Finite States + Clocks
+     \end{itemize}
+        % \begin{minipage}{0.45\textwidth}
+             \begin{figure}[ht!]
+      \begin{tikzpicture}[->,thick]
+        \node[initial ,initial text={}] at (0,0) (A) {\includegraphics[scale=.1]{./fig/off.png}} ;
+        \node at (3,0) (B) {\includegraphics[scale=.1]{./fig/on.png}};
+         \node at (6,0) (C) {\includegraphics[scale=.1]{./fig/onn.png}};
+        %\node[cir] at (8,.5) (D) {D};
+        \path (A) edge node [below]{\scriptsize $press,\set{x}$} (B);
+        \path(C) edge [bend left=30] node [above]{\scriptsize $press$}(A);
+       % \path (B) edge node [above]{$3 \leq x\leq 4,\ e_2$} (D);
+        \path (B)
+        edge[bend right] node [above]{\scriptsize $press, x > 5$}(A);
+
+        \path (B) edge node [above]{\scriptsize $press,x \leq 5$} (C);
+      \end{tikzpicture}
+     \caption{A Timed Automaton.}
+    \label{fig:ex1}
+  \end{figure}
+
+  \begin{itemize}
+     \item Infinite state space
+      \item Region construction
+        \item Reachability is PSPACE-C
+        \end{itemize}
+      \end{frame}
+      %%%%%%%%%%%%%%%%
+
+   %   \begin{frame}{Time + Probability}
+   %     \begin{itemize}
+   %       \item Randomized delays and discrete
+   %         choices~\mycite{Baier2008,Baier2007}
+   %         \item Purely stochastic models might not be sufficient in
+   %           real world problems
+   %           \item Interactions with the environment
+   %       \end{itemize}
+   %    \end{frame}
+       %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       \begin{frame}{Stochastic Timed Games (STG) \mycite{icalp09}}
+         \begin{itemize}
+         \item Locations partitioned to players with competing
+           objectives
+           \begin{itemize}
+           \item Some locations belong to the environment and  are
+             probabilistic ($\ocircle$).
+             \item Others belong to either player $\square$  or
+               $\Diamond$.
+               \item The environment is the \half-player.
+             \end{itemize}
+         \item \twohalf-player,
+           \begin{itemize}
+             \item $\square + \Diamond + \ocircle$
+           \end{itemize}
+         \item \onehalf-player,
+           \begin{itemize}
+             \item $\Diamond + \ocircle$
+           \end{itemize}
+         \item \half-player -- just the environment ($\ocircle$)
+
+         \end{itemize}
+
+       \end{frame}
+       %%%%%%%%%%%%%
+
+       \begin{frame}{Qualitative reachability vs. Quantitative reachability}
+         \begin{alertblock}{Reachability Question}
+           \scriptsize
+           Given a \twohalf-STG (resp. \onehalf-STG) \stg{} with a set T of target locations, an
+           initial state $s_0$, and a threshold $ p$ does
+           there exists a strategy of player $\Diamond$ ( resp. $\square$)
+           such that for every strategy of other players, the
+           player $\Diamond$ (resp. $\square$)  can reach target T from $s_0$
+           with probability $\bowtie p$? [$\bowtie \in \{<,\leq,=,>,\geq \}$]
+           \pause
+           \end{alertblock}
+         \begin{block}{Qualitative reachability:}
+          The constraint on probability $ p\in \set{0, 1}$
+         \end{block}
+         \begin{block}{Quantitative reachability:}
+            The constraint on probability $ 0 < p < 1$
+
+         \end{block}
+
+       \end{frame}
+
+       %%%%%%%%%%%%%%%%%% 5
+     %  \subsection{Known Results}
+       \begin{frame}{Known results on STG}
+
+         \begin{table}[]
+            \resizebox{\textwidth}{!}{
+           \begin{tabular}{cccc}
+             Model                & \#-Clocks & Qualitative                   & Quantitative                                                               \\
+             \hline
+ \multirow{2}{*}{\half-Player}    & 1         & Decidable~\mycite{Baier2008}  & Decidable~\mycite{Jurdzinski2008}                                            \\
+                                  & n         & {\bf Open}                    & {\bf Open}                                                                 \\
+             \hline
+ \multirow{2}{*}{\onehalf-Player} & 1         & Decidable~\mycite{icalp09}
+                                  & Decidable (initialized\footnote{})~\mycite{Akshay2016}                                                                 \\
+                                  & n         & {\bf Open}                    & Undecidable~\mycite{Akshay2016}
+                                                                                                                                                           \\
+             \hline
+ \multirow{2}{*}{\twohalf-Player} & 1         & Decidable~\mycite{Akshay2016} & Decidable (initialized\footnotemark[\value{footnote}]~\mycite{Akshay2016}) \\
+                                  & n         & {\bf Open}                    & Undecidable~\mycite{icalp09}                                               \\
+             \hline
+           \end{tabular}}
+
+ \end{table}
+ {\scriptsize \textcolor{cyan}{$^2$}Initialized: Any transition from non-stochastic to stochastic
+   location resets the clock}
+         \end{frame}
+         %%%%%%%%%%%%%%%%%
+        % \subsection{Definitions}
+         \begin{frame}{StopWatches}
+      \begin{block}{StopWatches} Clocks with derivative zero at some locations
+      \end{block}
+      \begin{itemize}[<+->]
+      \item Rate of time in a clock is constant at every location of an automaton
+      \item Rate of time in a stopwatch can be 0  in certrain location of an automaton
+      \end{itemize}
+     \end{frame}
+     %%%%%%%%%%%%%%%%%
+      \begin{frame}{Power of StopWatch}
+      \begin{itemize}[<+->]
+      \item Can simulate linear hybrid automata~\mycite{Cassez2000}
+      \item Reachability is \textcolor{red}{Undecidable!}
+      \item Useful in job-scheduling~\mycite{Abdeddaim2002}
+
+      \end{itemize}
+      \end{frame}
+      %%%%%%%%%%%%%%%%%%%% 5
+
+      \begin{frame}{Stochastic StopWatch Games (SSG)}
+        \begin{itemize}
+        \item Extension of  STG
+          \item Clocks are replaced with StopWatches
+          \end{itemize}
+                \begin{figure}[ht!]
+   \begin{center}
+     \begin{figure}
+       \begin{center}
+
+       \begin{tikzpicture}[->,thick]
+         \node[initial, dia, initial text ={}] at (0,0) (A) {J} ;
+         \node[dia, accepting] at (9,0) (B) {F};
+       \node[cir1] at (3,0) (C) {S};
+
+        \node[dia] at (6,0) (C1) {C};
+
+        \path (A) edge node[ above] {New Job} node[below] {$\set{x,x_c}$} (C);
+        \path (C) edge [bend left] node[above] {Schedule} (C1);
+        \path(C1) edge [bend left] node [below] {Interrupt} (C);
+        \path(C1) edge node [above] {Finished} node [below] {$x_c == T
+          \wedge x \leq T_f$}
+           (B);
+
+
+       \end{tikzpicture}
+
+
+      % \caption{An example of }
+     \label{fig:ex1}
+   \end{center}
+ \end{figure}
+
+
+
+     \label{fig:ex1}
+   \end{center}
+ \end{figure}
+ \begin{itemize}
+   \item The stochastic scheduler  can be modeled as a
+     $1\frac{1}{2}$ SSG with a clock $x$ and a stopwatch $x_c$
+   \item The stopwatch only measures time when it is in CPU ``C''
+
+   \end{itemize}
+         \end{frame}
+         %%%%%%%%%%%%%%%
+       % \subsection{Contributions}
+        \begin{frame}{Results}
+          \begin{block}{Results}
+            For $\onehalf$-Player SSG Qualitative reachability,
+            \begin{itemize}
+ \item         is decidable with 2 stopwatches and is EXPTIME-C
+ \item    is undecidable with 3 stopwatches.
+   \end{itemize}
+          \end{block}
+ %           \begin{table}[]
+ %            \resizebox{\textwidth}{!}{
+ %           \begin{tabular}{ccc}
+ %             Model& \#-StopWatches & Qualitative Reachability    \\
+ %             \hline
+ % \multirow{2}{*}{\onehalf-Player-SSG} &2 &Decidable (EXPTIME-Complete)\\
+
+ %                  & 3  & Undecidable  \\
+ %             \hline
+ %           \end{tabular}}
+
+ % \end{table}
+
+           \end{frame}
+           %%%%%%%%%%%%%%%%%
+
+           \begin{frame}{EXPTIME-Completeness I}
+             \begin{block}{Region graph}
+               One can construct a region graph
+               of a stopwatch automata with two stopwatches
+               \end{block}
+              Membership:
+             \begin{itemize}
+             \item Backward fixed point algorithm on region graph of
+               the \onehalf-player SSG with 2 stopwatches.
+               \item The region graph is exponential to the model
+               \item Algorithm is polynomial in the size of the graph
+               \end{itemize}
+             \end{frame}
+             %%%%%%%%%%%%% 5
+             \begin{frame}{EXPTIME-Completeness II}
+               Hardness:
+               \begin{itemize}
+                 \item Qualitative reachability problem of
+                   probabilistic timed automata (PTA) with two clocks is
+                   EXPTIME-Complete~\mycite{Kwiatkowska2000}
+                     \item We can build a \onehalf-SSG \stg with two
+                       stopwatches corresponding a two clock PTA $\mathcal{P}$
+                      \item By solving qualitative reachability of \stg
+                        one can solve qualitative reachability of $\mathcal{P}$.
+                      \end{itemize}
+                    \end{frame}
+                     %%%%%%%%%%%%%%%%%
+
+             \begin{frame}{Two Counter Machine}
+               \begin{block}{Two Counter Machine} \scriptsize
+                 A two counter machine $\mathcal{M}$ can be defined as a tuple $(L,\mathcal{C})$, where $L$ is the
+ finite state of instructions including the special instruction
+ ``HALT'', and $\mathcal{C}=\{C_{1},C_{2}\}$. The instruction can be any one of the
+ following types,
+  \end{block}
+ \begin{itemize}\scriptsize
+ \item  (Increment the counter) $\ell_{p}$ : $C_{i}$ := $C_{i}+1; \textrm{ goto } \ell_{q};$,
+ \item  (Decrement the counter)
+   $\ell_{p}$: $C_{i}$:= $C_{i}-1; \textrm{ goto } \ell_{q};$,
+   \item (Checking zero)
+   $\ell_{p}$: $\textrm{ if}~(C_{i} = 0) \textrm{ then goto } \ell_{q}$
+   else goto $\ell_{r};$,
+   \item (Halting instruction) $\ell_{q}$ : HALT;
+   \end{itemize}
+ \end{frame}
+ %%%%%%%%%%%%%%%%%%%%%5
+   \begin{frame}{Undecidability}
+   \begin{block}{Non halting problem of 2-counter machine~\mycite{10.5555/1095587}}\scriptsize
+    The non halting problem for
+ two-counter machine is undecidable
+     \end{block}
+               \begin{alertblock}{Theorem}\scriptsize Given a two counter machine $\mathcal{M}$, one can build
+               a \onehalf-player SSG with three stopwatches, such that,
+               the player will have a strategy to reach the target
+               location T, if and only if the two counter machine does
+               not halt.
+             \end{alertblock}
+             \pause
+              \begin{exampleblock}{\scriptsize Qualitative Reachability of
+                 \onehalf-player SSG with three stopwatches is Undecidable}
+               \end{exampleblock}
+             \end{frame}
+
+             %%%%%%%%%%%%%%%
+             \begin{frame}{Gadget for Decrementing Counter $C_1$}
+                 \begin{figure} [!ht]
+     \begin{center}
+       \resizebox{\textwidth}{!}{
+         \begin{tikzpicture}[->,thick]
+           \tikzstyle{cir}=[draw, circle,minimum size=1.4em,inner
+           sep=0em] \tikzstyle{dia}=[draw,diamond,minimum
+           size=1.4em,inner sep=0em]
+
+           \node[initial, dia, initial text
+           ={$x=\frac{1}{2^i3^j},y=0,z=0$}] at (-10,-6) (A) {$\ell_i$}
+           ;
+
+           \node[dia] at (-8,-6) (B) {$B$};
+           \node[dia,fill=blue!50] at
+           (-6,-6) (C) {$C$}; \node[dia] at (-4,-6) (D) {$D$};
+           \node[cir] at (-2,-6) (A6) {$E$};
+           \node[dia] at (-1,-8) (L)
+           {$\ell_j$};
+           \node[draw=blue, fill=red!20, rectangle,
+           accepting] at (-3,-8) (T) {$T$};
+
+           \path (A) edge node
+           [above]{$x=1?$} (B);
+           \path (A) edge node [below]{$\{x,y\}$}
+           (B);
+           \path (B) edge node [above]{$z=1?$} node
+           [below]{$\{z\}$} (C);
+           \path (C) edge node [above]{$y=1?$}
+           node[below]{$\{y\}$} (D);
+           \path (D) edge node
+           [above]{$z=1?$} node[below]{$\{z,y\}$} (A6);
+           \path (A6) edge
+           node [right]{$z=0?$} (L);
+           \path (A6) edge node
+           [left]{$z=0?$} (T);
+         \end{tikzpicture}
+       }
+
+       \caption{Gadget Dec $C_1$}
+       \label{fig:dec-c1-3var}
+     \end{center}
+   \end{figure}
+   \begin{itemize}
+     \item  On entry to node
+       $\ell_i$, we have the values $x=\frac{1}{2^i3^j}$, $y=z=0$
+     \item On node $C$  rate of $x = 0$
+       \item At the stochastic node $E$
+     the valuation
+     $x=\frac{2}{2^{i}3^j} =
+     \frac{1}{2^{i-1}3^{j}}$,$y=z=0$
+     \item From the
+     stochastic node $E$, $\ell_j$ and $T$ can be reached with
+     probability $=\frac{1}{2}$ each
+     \end{itemize}
+   \end{frame}
+   %%%%%%%%%%%%%%%%%%%%%%%%%%%
+   \begin{frame}{Simulating Two counter Machine}
+     \begin{alertblock}{Theorem}
+   Given a two counter machine $\cal{M}$, Player $\Diamond$ has a
+   strategy to reach a target node $T$  with probability 1
+   in the constructed game graph $G(\cal{M})$ \Iff the two counter
+   machine $\cal{M}$ does not halt.
+ \end{alertblock}
+ \begin{itemize}
+   \item Every gadget reaches the next location $\ell_j$ and target
+     location $T$ with probability $\half$ each.
+     \item Probability of reaching a target T in $G(\cal{M})$ is $P_{total} = \half
+       + \half\times P_{rest}$
+       \item If M reaches HALT, then we reach a T with probability < 1
+
+         \item If it M doesn't reach HALT, then it will run infinitely
+           and $P_{total} = \sum_{n=1}^\infty 2^{-n} = 1$
+   \end{itemize}
+     \end{frame}
+
+     %%%%%%%%%%%%%%%%%%%%%%%%%%%
+     \section{Conclusion}
+     \begin{frame}{Conclusion}
+     \begin{itemize}
+      \item In this work we propose a new model of computation that captures probabilistic behaviour with different notion of time using stopwatch
+      \item Then we solve qualitative reachability problem
+      \end{itemize}
+      % \begin{itemize}
+      %   \item In this thesis, we try to solve the following problems
+      %     \begin{enumerate}[<+->]
+      %     \item Modeling multi-threaded \textcolor{red}{R}ecursive systems such that it is more expressive with decidable reachability and its extension to the timed system
+      %     \item Methodology of checking \textcolor{red}{R}esilience of timed systems modeled in timed automata
+      %     \item Modeling \textcolor{red}{R}andomness in timed systems using stochastic timed games.
+      %
+      %       \end{enumerate}
+      %   \end{itemize}
+     \end{frame}
+     %%%%%%%5
 %     \begin{frame}{Conclusion Contd.}
 %     \begin{enumerate}
 %         \item The 3\textcolor{red}{R}s combined increases the boundary of what timed automata can model.
@@ -1675,27 +1739,27 @@ decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}},
 %     \item and a new model to capture \textcolor{red}{R}andomness in timed systems
 %     \end{enumerate}
 %     \end{frame}
-%     %%%%%%%%%%%%%%%%%%%%%%%%
-%             \section{Future work}
-%             \begin{frame}{Future work}
-%               \begin{itemize}
-%               \item Recursion:
-%                 \begin{itemize}
-%                 \item Symbolic representation and open guards
-%                   \item Dynamic stack addition and removal
-%                   \end{itemize}
-%                 \item Resilience:
-%                   \begin{itemize}
-%                     \item Continuous resilience
-%                     \end{itemize}
-%                   \item Randomness:
-%                     \begin{itemize}
-%                       \item \twohalf-Player SSG under bounded time
-%                         constraint
-%                         \end{itemize}
-%                 \end{itemize}
-%             \end{frame}
-%             %%%%%%%%%%%%%%%%%%%%%%%%
+     %%%%%%%%%%%%%%%%%%%%%%%%
+   % \section{Future work}
+   %          \begin{frame}{Future work}
+   %            \begin{itemize}
+   %            \item Recursion:
+   %              \begin{itemize}
+   %              \item Symbolic representation and open guards
+   %                \item Dynamic stack addition and removal
+   %                \end{itemize}
+   %              \item Resilience:
+   %                \begin{itemize}
+   %                  \item Continuous resilience
+   %                  \end{itemize}
+   %                \item Randomness:
+   %                  \begin{itemize}
+   %                    \item \twohalf-Player SSG under bounded time
+   %                      constraint
+   %                      \end{itemize}
+   %              \end{itemize}
+   %          \end{frame}
+             %%%%%%%%%%%%%%%%%%%%%%%%
 %             \begin{frame}{List of Publications}
 %               \begin{enumerate}
 %                 \item S. Akshay, Paul Gastin, Krishna S, \emph{Sparsa
@@ -2060,39 +2124,39 @@ decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}},
 % \end{frame}
 
 %%%%%%%%%%%% 5
-\section{Algorithm and Tool for Hole Bounded Reachability of \mpda}
-\begin{frame}{Decidability \& Some Possible Algorithms}
-  \begin{theorem}
-The $K$-hole bounded reachability of \mpda{} is decidable
-   \end{theorem}
-   \begin{itemize}[<+->]
-   \item Hole bounded $\Rightarrow$ Tree-width bounded
-     \item Tree-width bounded $\Rightarrow$ Decidable reachability~\cite{madhusudan2011tree}
-   \end{itemize}
-   
-   \pause
-  \begin{itemize}[<+->]
-  \item Tree-width based Algorithm~\cite{AkshayGKS17},
-    \begin{enumerate}
-    \item Capture the behaviour of the model as a graph
-    \item Show that these graphs has bounded tree-width
-    \item Solve Reachability using Tree-automata
-      
-    \end{enumerate}
-    \pause
-  \hspace{6cm} \begin{rotate}{30}\textcolor{red}{Difficult to design!}
-        \end{rotate}
-  \item Naive BFS exploration
-      
-    \begin{enumerate}
-    \item makes arbitrary nondeterministic choices  
-      \end{enumerate}
-      \pause
-  \hspace{6cm} \begin{rotate}{30}\textcolor{red}{Unnecessary branches!}
-        \end{rotate}  
-  \end{itemize}
-  
-\end{frame}
+%\section{Algorithm and Tool for Hole Bounded Reachability of \mpda}
+%\begin{frame}{Decidability \& Some Possible Algorithms}
+%  \begin{theorem}
+%The $K$-hole bounded reachability of \mpda{} is decidable
+%   \end{theorem}
+%   \begin{itemize}[<+->]
+%   \item Hole bounded $\Rightarrow$ Tree-width bounded
+%     \item Tree-width bounded $\Rightarrow$ Decidable reachability~\cite{madhusudan2011tree}
+%   \end{itemize}
+%
+%   \pause
+%  \begin{itemize}[<+->]
+%  \item Tree-width based Algorithm~\cite{AkshayGKS17},
+%    \begin{enumerate}
+%    \item Capture the behaviour of the model as a graph
+%    \item Show that these graphs has bounded tree-width
+%    \item Solve Reachability using Tree-automata
+%
+%    \end{enumerate}
+%    \pause
+%  \hspace{6cm} \begin{rotate}{30}\textcolor{red}{Difficult to design!}
+%        \end{rotate}
+%  \item Naive BFS exploration
+%
+%    \begin{enumerate}
+%    \item makes arbitrary nondeterministic choices
+%      \end{enumerate}
+%      \pause
+%  \hspace{6cm} \begin{rotate}{30}\textcolor{red}{Unnecessary branches!}
+%        \end{rotate}
+%  \end{itemize}
+%
+%\end{frame}
 \end{document}
 %%%%%%%%%%%%%%%%%%%%5
     
